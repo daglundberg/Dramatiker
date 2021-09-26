@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ManikinMadness.Library;
 
 namespace ManikinMadness
 {
@@ -7,7 +8,7 @@ namespace ManikinMadness
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Manikin Madness");
+			Console.WriteLine("Welcome to Manikin Madness! Written by Dag Lundberg (c) 2021");
 
 			AudioPlayer audioPlayer = new AudioPlayer();
 
@@ -23,18 +24,9 @@ namespace ManikinMadness
 
 			foreach (AudioItem item in audioItems)
 			{
-				events.Add(new FadeInEvent(item, 5000));
-				events.Add(new FadeOutEvent(item, 5000));
+				events.Add(new FadeInEvent(item, 5500));
+				events.Add(new FadeOutEvent(item, 5500));
 			}
-			events.AddRange(new IEvent[]
-			{
-/*				new FadeInEvent(audioItems[0], 5000),
-				new CrossFadeEvent(audioItems[0], audioItems[1], 10000),
-				new FadeOutEvent(audioItems[1], 5000),*/
-
-/*				new FadeInEvent(audioItems[2], 5000),
-				new FadeOutEvent(audioItems[2], 10000)*/
-			}); ;
 
 			int currentEvent = 0;
 			Console.WriteLine($"{currentEvent} / {events.Count}");
@@ -43,8 +35,9 @@ namespace ManikinMadness
 			{
 				Console.ReadKey();
 				events[currentEvent].ApplyEvent(audioPlayer);
+				Console.WriteLine($"{currentEvent+1} / {events.Count}: {events[currentEvent]}");
+
 				currentEvent++;
-				Console.WriteLine($"{currentEvent} / {events.Count}");
 			}
 			Console.WriteLine($"Finished set.");
 			Console.ReadKey();
