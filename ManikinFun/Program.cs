@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ManikinMadness.Library;
 
 namespace ManikinMadness
@@ -13,7 +12,8 @@ namespace ManikinMadness
 			AudioPlayer audioPlayer = new AudioPlayer();
 
 			Set set = new Set();
-			set.LoadFromFile("");
+			Console.WriteLine("Enter path to set.json file:");
+			set.LoadFromFile(Console.ReadLine());
 
 			Console.WriteLine($"Press enter to move forward in the set...");
 

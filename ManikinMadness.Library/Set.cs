@@ -1,11 +1,18 @@
-﻿using System;
+﻿using Polenter.Serialization;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Text.Json;
+using System.Xml.Serialization;
 
 namespace ManikinMadness.Library
 {
 	public class Set
 	{
 		public string Name { get; set; }
+
+		[DataMember]
 		public List<IEvent> Events { get; set; }
 		public int CurrentIndex { get; private set; }
 
@@ -17,23 +24,63 @@ namespace ManikinMadness.Library
 
 		public void LoadFromFile(string pathToSetFile)
 		{
+			var serializer = new SharpSerializer();
+
+			Events = (List<IEvent>)serializer.Deserialize(pathToSetFile);
+
+			/*			StreamReader streamReader= new StreamReader(pathToSetFile);
+						string data = streamReader.ReadToEnd();
+
+						XmlSerializer xmlSerializer = new XmlSerializer(typeof(object), new Type[] { typeof(FadeInEvent), typeof(FadeOutEvent), typeof(CrossFadeEvent) });
+
+						var s = xmlSerializer.Deserialize(streamReader);
+
+						var result = JsonSerializer.Deserialize<List<object>>(data);
+
+						foreach (object item in result)
+						{
+							if (item.GetType() == typeof(FadeInEvent))
+							{
+								Events.Add((FadeInEvent)item);
+							}
+							else if (item.GetType() == typeof(FadeOutEvent))
+							{
+								Events.Add((FadeOutEvent)item);
+							}
+						}*/
+
+			//Events = JsonSerializer.Deserialize<List<object>>(data);
+
 			CurrentIndex = 0;
+		}
 
-			Events = new List<IEvent>();
+		public void SaveToFile(string pathToSetFile)
+        {
+			//using StreamWriter streamWriter = new StreamWriter(pathToSetFile);
 
-			List<AudioItem> audioItems = new List<AudioItem>();
-			audioItems.Add(new AudioItem(1, @"C:\Users\Dag\Desktop\vanilla.mp3", true));
-			audioItems.Add(new AudioItem(2, @"C:\Users\Dag\Desktop\hmm.mp3", true));
-			audioItems.Add(new AudioItem(3, @"C:\Users\Dag\Desktop\Havet 3.mp3", true));
-			audioItems.Add(new AudioItem(4, @"C:\Users\Dag\Desktop\Havet 4.mp3", true));
-			audioItems.Add(new AudioItem(5, @"C:\Users\Dag\Desktop\Havet 5.mp3", true));
-			audioItems.Add(new AudioItem(6, @"C:\Users\Dag\Desktop\Havet 6.mp3", true));
+			var serializer = new SharpSerializer();
+			serializer.Serialize(Events, pathToSetFile);
 
-			foreach (AudioItem item in audioItems)
-			{
-				Events.Add(new FadeInEvent(item, 4500));
-				Events.Add(new FadeOutEvent(item, 25000));
-			}
+/*			XmlSerializer xmlSerializer = new XmlSerializer(typeof(object), new Type[] { typeof(FadeInEvent), typeof(FadeOutEvent), typeof(CrossFadeEvent) });
+			//xmlSerializer.Serialize(Events, typeof(List<IEvent>));
+
+			foreach (IEvent e in Events)
+            {
+				if (e.GetType() == typeof(FadeInEvent))
+                {
+					xmlSerializer.Serialize(streamWriter, (FadeInEvent)e);
+				}
+				else if (e.GetType() == typeof(FadeOutEvent))
+                {
+					xmlSerializer.Serialize(streamWriter, (FadeOutEvent)e);
+				}
+				else if (e.GetType() == typeof(CrossFadeEvent))
+                {
+					xmlSerializer.Serialize(streamWriter, (CrossFadeEvent)e);
+				}
+			}*/
+
+			//streamWriter.Flush();
 		}
 
 		public void TriggerNext(AudioPlayer audioPlayer)

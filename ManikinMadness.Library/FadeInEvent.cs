@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace ManikinMadness.Library
 {
+	[Serializable]
 	public class FadeInEvent : IEvent
 	{
 		public FadeInEvent(AudioItem itemToFade, int fadeLength)
@@ -10,10 +12,12 @@ namespace ManikinMadness.Library
 			FadeLength = fadeLength;
 		}
 
+		public FadeInEvent() { }
+
 		[DisplayName("Item To Fade In")]
 		public AudioItem ItemToFadeIn { get; set; }
 
-		[DisplayName("Fade In Length (seconds)")]
+		[DisplayName("Fade In Length (milliseconds)")]
 		public int FadeLength { get; set; }
 
 		public void ApplyEvent(AudioPlayer audioPlayer)

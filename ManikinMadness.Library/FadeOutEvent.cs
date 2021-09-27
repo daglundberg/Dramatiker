@@ -10,10 +10,15 @@ namespace ManikinMadness.Library
 			FadeLength = fadeLength;
 		}
 
+        public FadeOutEvent()
+        {
+
+        }
+
 		[DisplayName("Item To Fade Out")]
 		public AudioItem ItemToFadeOut { get; set; }
 
-		[DisplayName("Fade Out Length (seconds)")]
+		[DisplayName("Fade Out Length (milliseconds)")]
 		public int FadeLength { get; set; }
 
 		public void ApplyEvent(AudioPlayer audioPlayer)

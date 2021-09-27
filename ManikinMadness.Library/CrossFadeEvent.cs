@@ -11,13 +11,18 @@ namespace ManikinMadness.Library
 			FadeLength = fadeLength;
 		}
 
+        public CrossFadeEvent()
+        {
+
+        }
+
 		[DisplayName("Item To Fade In")]
 		public AudioItem ItemToFadeIn { get; set; }
 
 		[DisplayName("Item To Fade Out")]
 		public AudioItem ItemToFadeOut { get; set; }
 
-		[DisplayName("Cross-Fade Length (seconds)")]
+		[DisplayName("Cross-Fade Length (milliseconds)")]
 		public int FadeLength { get; set; }
 
 		public void ApplyEvent(AudioPlayer audioPlayer)

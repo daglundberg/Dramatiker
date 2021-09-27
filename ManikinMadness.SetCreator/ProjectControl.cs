@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -66,7 +67,7 @@ namespace ManikinMadness.SetCreator
 
 					}
 					if (fileName != null)
-						Project.AudioItems.Add(new AudioItem(0, fileName, true, 1));
+						Project.AudioItems.Add(new AudioItem(fileName, true, 1));
 				}
 			}
 		}
@@ -75,7 +76,7 @@ namespace ManikinMadness.SetCreator
 		{
 			if (Project.AudioItems.Count > 0)
 			{
-				var fadeInEvent = new FadeInEvent(Project.AudioItems[0], 5000);
+				var fadeInEvent = new FadeInEvent(Project.AudioItems[0], 15000);
 
 				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeInEvent, Project.AudioItems.ToList());
 				if (customPropertyGridForm.ShowDialog() == DialogResult.OK)
@@ -101,7 +102,7 @@ namespace ManikinMadness.SetCreator
 		{
 			if (Project.AudioItems.Count > 0)
 			{
-				var fadeOutEvent = new FadeOutEvent(Project.AudioItems[0], 5000);
+				var fadeOutEvent = new FadeOutEvent(Project.AudioItems[0], 30000);
 
 				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeOutEvent, Project.AudioItems.ToList());
 				if (customPropertyGridForm.ShowDialog() == DialogResult.OK)
@@ -122,7 +123,7 @@ namespace ManikinMadness.SetCreator
 		{
 			if (Project.AudioItems.Count > 1)
 			{
-				var fadeOutEvent = new CrossFadeEvent(Project.AudioItems[0], Project.AudioItems[1], 5000);
+				var fadeOutEvent = new CrossFadeEvent(Project.AudioItems[0], Project.AudioItems[1], 30000);
 
 				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeOutEvent, Project.AudioItems.ToList());
 				if (customPropertyGridForm.ShowDialog() == DialogResult.OK)
@@ -144,6 +145,12 @@ namespace ManikinMadness.SetCreator
 			Project.Set.Restart();
 			PlaybackForm playbackForm = new PlaybackForm(Project.Set);
 			playbackForm.ShowDialog();
+        }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			string path = Path.Combine(Project.Folder, "set.xml");
+			Project.Set.SaveToFile(path);
         }
     }
 }

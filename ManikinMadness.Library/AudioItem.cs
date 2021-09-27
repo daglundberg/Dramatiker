@@ -1,29 +1,51 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace ManikinMadness.Library
 {
-	public class AudioItem
+	public class AudioItem : IEquatable<AudioItem>
 	{
-		public AudioItem(int id, string fileName, bool isLooping, float volume = 1.0f)
+		public AudioItem(string fileName, bool isLooping, float volume = 1.0f)
 		{			
-			ID = id;
 			FileName = fileName;
 			IsLooping = isLooping;
 			Volume = volume;
-			FriendlyName = Path.GetFileName(FileName);
 		}
 
-		public int ID { get; private set; }
-		public string FileName;
-		public bool IsLooping;
-		public float Volume;
-		public string FriendlyName { get; private set; }
+		public AudioItem() { }
+
+		public string FileName {  get; set; }
+
+		public bool IsLooping { get; set; }
+
+		public float Volume { get; set; }
+		public string FriendlyName
+		{
+			get
+            {
+				return Path.GetFileName(FileName);
+			}
+		}
+
+		public override bool Equals(object obj)
+		{
+			return Equals(obj as AudioItem);
+		}
+
+		public bool Equals(AudioItem other)
+        {
+			return other != null &&
+				FileName == other.FileName;
+		}
+
+		public override int GetHashCode()
+		{
+			return FileName.GetHashCode();
+		}
 
 		public override string ToString()
 		{
 			return FriendlyName;
 		}
 	}
-
-
 }

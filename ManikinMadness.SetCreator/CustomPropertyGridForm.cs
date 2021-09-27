@@ -40,9 +40,31 @@ namespace ManikinMadness.SetCreator
 				}
 				else if (prop.PropertyType == typeof(int))
 				{
+					Panel panel = new Panel();
+					panel.Height = 30;
+					panel.Width = Width-5;
 					Label label = new Label();
-					label.Text = prop.Name;
-					flowLayoutPanel1.Controls.Add(label);
+					label.AutoSize = true;
+					label.Text = GetAttributeDisplayName(prop);
+					panel.Controls.Add(label);
+					label.Location = new Point(4, 4);
+
+					NumericUpDown upDown = new NumericUpDown();
+					upDown.Maximum = 5*60*1000;
+					upDown.Minimum = 0;
+					upDown.Increment = 1000;
+
+					upDown.Value = (int)prop.GetValue(Event);
+					upDown.ValueChanged += (object sender, EventArgs e) =>
+					{
+						prop.SetValue(Event, (int)upDown.Value);
+					};
+
+					panel.Controls.Add(upDown);
+					upDown.Location = new Point(200, 2);
+					
+
+					flowLayoutPanel1.Controls.Add(panel);
 				}
 				else
 				{
