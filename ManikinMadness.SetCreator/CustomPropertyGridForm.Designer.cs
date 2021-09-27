@@ -61,7 +61,7 @@ namespace ManikinMadness.SetCreator
 			this.ClientSize = new System.Drawing.Size(489, 222);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.flowLayoutPanel1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "CustomPropertyGridForm";
 			this.Text = "Properties";
 			this.ResumeLayout(false);

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ManikinMadness.SetCreator
@@ -20,13 +21,30 @@ namespace ManikinMadness.SetCreator
 			Event = eventObject;
 			_projectReference = project;
 			InitializeComponent();
-			lblEventType.Text = Event.ToString();
+
+			UpdateLabels();
 		}
 
 		private void EventControl_Click(object sender, EventArgs e)
 		{
-			CustomPropertyGridForm gridForm = new CustomPropertyGridForm(Event, _projectReference.AudioItems);
-			gridForm.ShowDialog();
+			CustomPropertyGridForm gridForm = new CustomPropertyGridForm(Event, _projectReference.AudioItems.ToList());
+			if (gridForm.ShowDialog() == DialogResult.OK)
+			{
+
+			}
+			UpdateLabels();
+		}
+
+		private void UpdateLabels()
+        {
+			lblDescription.Text = Event.GetDescription();
+
+			lblTitle.Text = Event.GetTitle();
+		}
+
+		private void EventControl_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

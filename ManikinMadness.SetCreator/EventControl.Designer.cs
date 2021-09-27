@@ -29,35 +29,51 @@ namespace ManikinMadness.SetCreator
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.lblEventType = new System.Windows.Forms.Label();
-			this.SuspendLayout();
-			// 
-			// lblEventType
-			// 
-			this.lblEventType.AutoSize = true;
-			this.lblEventType.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-			this.lblEventType.Location = new System.Drawing.Point(3, 2);
-			this.lblEventType.Name = "lblEventType";
-			this.lblEventType.Size = new System.Drawing.Size(62, 21);
-			this.lblEventType.TabIndex = 0;
-			this.lblEventType.Text = "Fade In";
-			// 
-			// EventControl
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.Controls.Add(this.lblEventType);
-			this.Name = "EventControl";
-			this.Size = new System.Drawing.Size(188, 63);
-			this.Click += new System.EventHandler(this.EventControl_Click);
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.lblDescription = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // lblDescription
+            // 
+            this.lblDescription.AutoSize = true;
+            this.lblDescription.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblDescription.Location = new System.Drawing.Point(13, 26);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(102, 34);
+            this.lblDescription.TabIndex = 1;
+            this.lblDescription.Text = "Some more info\r\ngoes here\r\n";
+            this.lblDescription.Click += new System.EventHandler(this.EventControl_Click);
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblTitle.Location = new System.Drawing.Point(2, 2);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(60, 21);
+            this.lblTitle.TabIndex = 2;
+            this.lblTitle.Text = "lblTitle";
+            this.lblTitle.Click += new System.EventHandler(this.EventControl_Click);
+            // 
+            // EventControl
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.Controls.Add(this.lblTitle);
+            this.Controls.Add(this.lblDescription);
+            this.Name = "EventControl";
+            this.Size = new System.Drawing.Size(188, 80);
+            this.Load += new System.EventHandler(this.EventControl_Load);
+            this.Click += new System.EventHandler(this.EventControl_Click);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.Label lblEventType;
-	}
+		private System.Windows.Forms.Label lblDescription;
+        private System.Windows.Forms.Label lblTitle;
+    }
 }

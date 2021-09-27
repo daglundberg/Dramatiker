@@ -22,15 +22,26 @@ namespace ManikinMadness.SetCreator
 		public AudioItem SelectedItem { get; private set; }
 
 		IEnumerable<AudioItem> items;
-		public AudioItemSelector(string label, IEnumerable<AudioItem> audioItems)
+		public AudioItemSelector(string label, List<AudioItem> audioItems, AudioItem currentItem)
 		{
-			items = audioItems;
+
 			InitializeComponent();
+
+			SelectedItem = currentItem;
+			items = audioItems;
+
 			label1.Text = label;
 			foreach (AudioItem item in audioItems)
 			{
 				comboBox1.Items.Add(item.FriendlyName);
 			}
+
+			if (currentItem != null)
+				comboBox1.Text = currentItem.FriendlyName;
+
+			comboBox1.Text = "Null";
+
+			//comboBox1.Text = "yeah";
 		}
 
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

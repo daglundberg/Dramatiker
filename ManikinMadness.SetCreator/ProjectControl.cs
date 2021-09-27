@@ -43,7 +43,7 @@ namespace ManikinMadness.SetCreator
 					if (Path.GetDirectoryName(path) == Project.Folder)
 					{
 						//File is already in project folder
-						MessageBox.Show($"{path} is already in the project folder.", "Already included!");
+						//MessageBox.Show($"{path} is already in the project folder.", "Already included!");
 						fileName = path;
 					}
 					else
@@ -73,16 +73,77 @@ namespace ManikinMadness.SetCreator
 
 		private void createFadeInEventToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			FadeInEvent fadeInEvent = new FadeInEvent(null, 5000);
-			Project.Set.Events.Add(fadeInEvent);
-			EventControl eventControl = new EventControl(fadeInEvent, Project);
-			flowLayoutPanel1.Controls.Add(eventControl);
-			eventControl.Width = flowLayoutPanel1.Width - 30;
+			if (Project.AudioItems.Count > 0)
+			{
+				var fadeInEvent = new FadeInEvent(Project.AudioItems[0], 5000);
+
+				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeInEvent, Project.AudioItems.ToList());
+				if (customPropertyGridForm.ShowDialog() == DialogResult.OK)
+				{
+					Project.Set.Events.Add(fadeInEvent);
+					EventControl eventControl = new EventControl(fadeInEvent, Project);
+					flowLayoutPanel1.Controls.Add(eventControl);
+					eventControl.Width = flowLayoutPanel1.Width - 30;
+				}
+			}
+			else
+			{
+				MessageBox.Show("Can't create a Fade In Event without at least one audio item in the pool.");
+			}
 		}
 
 		private void ProjectControl_Load(object sender, EventArgs e)
 		{
 
 		}
-	}
+
+		private void createFadeOutEventToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Project.AudioItems.Count > 0)
+			{
+				var fadeOutEvent = new FadeOutEvent(Project.AudioItems[0], 5000);
+
+				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeOutEvent, Project.AudioItems.ToList());
+				if (customPropertyGridForm.ShowDialog() == DialogResult.OK)
+				{
+					Project.Set.Events.Add(fadeOutEvent);
+					EventControl eventControl = new EventControl(fadeOutEvent, Project);
+					flowLayoutPanel1.Controls.Add(eventControl);
+					eventControl.Width = flowLayoutPanel1.Width - 30;
+				}
+			}
+			else
+			{
+				MessageBox.Show("Can't create a Fade Out Event without at least one audio item in the pool.");
+			}
+		}
+
+		private void createCrossFadeEventToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Project.AudioItems.Count > 1)
+			{
+				var fadeOutEvent = new CrossFadeEvent(Project.AudioItems[0], Project.AudioItems[1], 5000);
+
+				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeOutEvent, Project.AudioItems.ToList());
+				if (customPropertyGridForm.ShowDialog() == DialogResult.OK)
+				{
+					Project.Set.Events.Add(fadeOutEvent);
+					EventControl eventControl = new EventControl(fadeOutEvent, Project);
+					flowLayoutPanel1.Controls.Add(eventControl);
+					eventControl.Width = flowLayoutPanel1.Width - 30;
+				}
+			}
+			else
+			{
+				MessageBox.Show("Can't create a Cross-Fade Event with less than two audio items in the pool.");
+			}
+		}
+
+        private void playbackToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			Project.Set.Restart();
+			PlaybackForm playbackForm = new PlaybackForm(Project.Set);
+			playbackForm.ShowDialog();
+        }
+    }
 }

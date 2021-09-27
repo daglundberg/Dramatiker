@@ -7,18 +7,17 @@ namespace ManikinMadness.Library
 	{
 		public string Name { get; set; }
 		public List<IEvent> Events { get; set; }
-		private int _currentIndex;
+		public int CurrentIndex { get; private set; }
 
 		public Set()
 		{
-			_currentIndex = 0;
+			CurrentIndex = 0;
 			Events = new List<IEvent>();
-
 		}
 
 		public void LoadFromFile(string pathToSetFile)
 		{
-			_currentIndex = 0;
+			CurrentIndex = 0;
 
 			Events = new List<IEvent>();
 
@@ -39,27 +38,48 @@ namespace ManikinMadness.Library
 
 		public void TriggerNext(AudioPlayer audioPlayer)
 		{
-			Console.WriteLine($"{_currentIndex + 1} / {Events.Count}: {Events[_currentIndex]}");
+			Console.WriteLine($"{CurrentIndex + 1} / {Events.Count}: {Events[CurrentIndex]}");
 
-			Events[_currentIndex].ApplyEvent(audioPlayer);
-			_currentIndex++;
+			Events[CurrentIndex].ApplyEvent(audioPlayer);
+			CurrentIndex++;
 		}
+
+		public IEvent GetNextEvent()
+        {
+			if (CurrentIndex < Events.Count)
+				return Events[CurrentIndex];
+			else
+				return null;
+        }
+
+		public IEvent GetPreviousEvent()
+        {
+			if (CurrentIndex > 0)
+				return Events[CurrentIndex - 1];
+			else
+				return null;
+        }
 
 		public void GoBack()
 		{
-			_currentIndex--;
+			CurrentIndex--;
 		}
+
+		public void Restart()
+        {
+			CurrentIndex = 0;
+        }
 
 		public void GoForward()
 		{
-			_currentIndex++;
+			CurrentIndex++;
 		}
 
 		public bool IsCompleted
 		{
 			get
 			{
-				return _currentIndex >= Events.Count;
+				return CurrentIndex >= Events.Count;
 			}
 		}
 	}

@@ -17,7 +17,17 @@ namespace ManikinMadness.Library
 
 		public void PlayAudioItem(AudioItem item, int fadeInLength = 0)
 		{
-			int handle = Bass.CreateStream(item.FileName, 0, 0, item.IsLooping? BassFlags.Loop: BassFlags.Default);
+			int handle = 0;
+			if (_playingItems.ContainsKey(item))
+			{
+				_playingItems.TryGetValue(item, out handle);
+				Bass.ChannelStop(handle);
+			}
+			else
+			{
+				handle = Bass.CreateStream(item.FileName, 0, 0, item.IsLooping? BassFlags.Loop: BassFlags.Default);
+				_playingItems.Add(item, handle);
+			}
 
 			if (fadeInLength <= 0)
 				Bass.ChannelSetAttribute(handle, ChannelAttribute.Volume, item.Volume);
@@ -28,14 +38,12 @@ namespace ManikinMadness.Library
 			}
 
 			Bass.ChannelPlay(handle); // Begin Playback.
-			
-			_playingItems.Add(item, handle);
 		}
 
 		public void StopAudioItem(AudioItem item, int fadeOutLength = 0)
 		{
 			if (_playingItems.ContainsKey(item) == false)
-				throw new Exception("That item is not here...");
+				return;
 
 			_playingItems.TryGetValue(item, out var handle);
 
@@ -65,6 +73,7 @@ namespace ManikinMadness.Library
 		{
 			foreach (int handle in _playingItems.Values)
 			{
+				Bass.ChannelStop(handle);
 				Bass.StreamFree(handle);
 			}
 

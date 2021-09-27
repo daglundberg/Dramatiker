@@ -1,24 +1,38 @@
-﻿namespace ManikinMadness.Library
+﻿using System.ComponentModel;
+
+namespace ManikinMadness.Library
 {
 	public class FadeOutEvent : IEvent
 	{
 		public FadeOutEvent(AudioItem itemToFade, int fadeLength)
 		{
-			_item = itemToFade;
-			_fadeLength = fadeLength;
+			ItemToFadeOut = itemToFade;
+			FadeLength = fadeLength;
 		}
 
-		AudioItem _item;
-		int _fadeLength;
+		[DisplayName("Item To Fade Out")]
+		public AudioItem ItemToFadeOut { get; set; }
+
+		[DisplayName("Fade Out Length (seconds)")]
+		public int FadeLength { get; set; }
 
 		public void ApplyEvent(AudioPlayer audioPlayer)
 		{
-			audioPlayer.StopAudioItem(_item, _fadeLength);
+			audioPlayer.StopAudioItem(ItemToFadeOut, FadeLength);
+		}
+		public string GetDescription()
+		{
+			return $"{ ItemToFadeOut }\nover {decimal.Round((decimal)FadeLength / (decimal)1000, 3)} seconds";
+		}
+
+		public string GetTitle()
+		{
+			return "Fade Out";
 		}
 
 		public override string ToString()
 		{
-			return $"Fade out \"{ _item }\" {decimal.Round((decimal)_fadeLength / (decimal)1000, 3)} seconds";
+			return $"{GetTitle()}\n{GetDescription()}";
 		}
 	}
 }

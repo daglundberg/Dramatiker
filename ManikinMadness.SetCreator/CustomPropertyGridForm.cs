@@ -20,18 +20,22 @@ namespace ManikinMadness.SetCreator
 		}
 
 		public IEvent Event { get; private set; }
-		public CustomPropertyGridForm(IEvent eventObject, IEnumerable<AudioItem> audioItems)
+		PropertyInfo[] properties;
+		public CustomPropertyGridForm(IEvent eventObject, List<AudioItem> audioItems)
 		{
 			Event = eventObject;
 			InitializeComponent();
 
-			PropertyInfo[] props = Event.GetType().GetProperties();
-			foreach (PropertyInfo prop in props)
+			properties = Event.GetType().GetProperties();
+			foreach (PropertyInfo prop in properties.Reverse())
 			{
 				if (prop.PropertyType == typeof(AudioItem))
 				{					
-					AudioItemSelector itemSelector = new AudioItemSelector(GetAttributeDisplayName(prop), audioItems);
-					itemSelector.SelectedItemChanged += ItemSelector_SelectedItemChanged;
+					AudioItemSelector itemSelector = new AudioItemSelector(GetAttributeDisplayName(prop), audioItems, (AudioItem)prop.GetValue(Event));
+					itemSelector.SelectedItemChanged += (object sender, EventArgs e) =>
+					{
+						prop.SetValue(Event, sender);
+					};
 					flowLayoutPanel1. Controls.Add(itemSelector);
 				}
 				else if (prop.PropertyType == typeof(int))
@@ -71,7 +75,8 @@ namespace ManikinMadness.SetCreator
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-
+			DialogResult = DialogResult.OK;
+			Close();
 		}
 	}
 }
