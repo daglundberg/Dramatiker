@@ -33,6 +33,7 @@ namespace ManikinMadness.SetCreator
 		private void addAudioFileToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog openFileDialog = new();
+			openFileDialog.Multiselect = true;
 			openFileDialog.Filter = "Audio files |*.mp3;*.wav;*.aiff;*.ogg;";
 			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
@@ -68,6 +69,20 @@ namespace ManikinMadness.SetCreator
 						Project.AudioItems.Add(new AudioItem(0, fileName, true, 1));
 				}
 			}
+		}
+
+		private void createFadeInEventToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FadeInEvent fadeInEvent = new FadeInEvent(null, 5000);
+			Project.Set.Events.Add(fadeInEvent);
+			EventControl eventControl = new EventControl(fadeInEvent, Project);
+			flowLayoutPanel1.Controls.Add(eventControl);
+			eventControl.Width = flowLayoutPanel1.Width - 30;
+		}
+
+		private void ProjectControl_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

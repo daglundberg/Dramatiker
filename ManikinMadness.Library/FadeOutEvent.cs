@@ -18,7 +18,7 @@
 
 		public override string ToString()
 		{
-			return $"Fade out \"{ _item }\" over {decimal.Round((decimal)_fadeLength / (decimal)1000, 3)} seconds";
+			return $"Fade out \"{ _item }\" {decimal.Round((decimal)_fadeLength / (decimal)1000, 3)} seconds";
 		}
 	}
 }

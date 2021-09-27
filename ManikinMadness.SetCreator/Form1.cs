@@ -36,10 +36,13 @@ namespace ManikinMadness.SetCreator
 
 				_projectControl = projectControl;
 				this.Controls.Add(_projectControl);
-				_projectControl.Dock = DockStyle.Fill;
-
-
 				menuStrip1.Items.Add(_projectControl.ToolStripItem);
+
+				_projectControl.Dock = DockStyle.Fill;
+				Controls.Remove(menuStrip1);
+				Controls.Add(menuStrip1);
+				menuStrip1.Dock = DockStyle.Top;
+
 			}
 			else
 				return;

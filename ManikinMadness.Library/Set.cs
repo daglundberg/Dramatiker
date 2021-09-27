@@ -6,18 +6,25 @@ namespace ManikinMadness.Library
 	public class Set
 	{
 		public string Name { get; set; }
-		List<IEvent> Events { get; set; }
+		public List<IEvent> Events { get; set; }
 		private int _currentIndex;
 
-		public void Load(string pathToSetFile)
+		public Set()
+		{
+			_currentIndex = 0;
+			Events = new List<IEvent>();
+
+		}
+
+		public void LoadFromFile(string pathToSetFile)
 		{
 			_currentIndex = 0;
 
 			Events = new List<IEvent>();
 
 			List<AudioItem> audioItems = new List<AudioItem>();
-			audioItems.Add(new AudioItem(1, @"C:\Users\Dag\Desktop\Havet 1.mp3", true));
-			audioItems.Add(new AudioItem(2, @"C:\Users\Dag\Desktop\Havet 2.mp3", true));
+			audioItems.Add(new AudioItem(1, @"C:\Users\Dag\Desktop\vanilla.mp3", true));
+			audioItems.Add(new AudioItem(2, @"C:\Users\Dag\Desktop\hmm.mp3", true));
 			audioItems.Add(new AudioItem(3, @"C:\Users\Dag\Desktop\Havet 3.mp3", true));
 			audioItems.Add(new AudioItem(4, @"C:\Users\Dag\Desktop\Havet 4.mp3", true));
 			audioItems.Add(new AudioItem(5, @"C:\Users\Dag\Desktop\Havet 5.mp3", true));
@@ -25,8 +32,8 @@ namespace ManikinMadness.Library
 
 			foreach (AudioItem item in audioItems)
 			{
-				Events.Add(new FadeInEvent(item, 5500));
-				Events.Add(new FadeOutEvent(item, 5500));
+				Events.Add(new FadeInEvent(item, 4500));
+				Events.Add(new FadeOutEvent(item, 25000));
 			}
 		}
 

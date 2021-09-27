@@ -13,7 +13,7 @@ namespace ManikinMadness
 			AudioPlayer audioPlayer = new AudioPlayer();
 
 			Set set = new Set();
-			set.Load("");
+			set.LoadFromFile("");
 
 			Console.WriteLine($"Press enter to move forward in the set...");
 

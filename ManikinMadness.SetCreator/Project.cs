@@ -11,11 +11,13 @@ namespace ManikinMadness.SetCreator
 		{
 			Folder = folder;
 			AudioItems = new BindingList<AudioItem>();
+			Set = new Set();			
 		}
 
 		public string Folder { get; private set; }
 		List<IEvent> Events { get; set; }
 		public BindingList<AudioItem> AudioItems { get; set; }
+		public Set Set { get; set; }
 
 		public void Save()
 		{
@@ -28,4 +30,5 @@ namespace ManikinMadness.SetCreator
 			//return null;
 		}
 	}
+
 }
