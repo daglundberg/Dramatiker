@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,7 +7,11 @@
     <RootNamespace>Dramatiker.Client</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Iot.Device.Bindings" Version="1.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\Dramatiker.Library\Dramatiker.Library.csproj" />
   </ItemGroup>
 

@@ -16,6 +16,7 @@ namespace Dramatiker.SetCreator
         public PlaybackForm(Set set)
         {
             AudioPlayer = new AudioPlayer();
+            AudioPlayer.PlayStartUpSound();
             InitializeComponent();
             _set = set;
 
