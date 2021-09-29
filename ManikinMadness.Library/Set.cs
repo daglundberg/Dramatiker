@@ -25,62 +25,15 @@ namespace ManikinMadness.Library
 		public void LoadFromFile(string pathToSetFile)
 		{
 			var serializer = new SharpSerializer();
-
 			Events = (List<IEvent>)serializer.Deserialize(pathToSetFile);
-
-			/*			StreamReader streamReader= new StreamReader(pathToSetFile);
-						string data = streamReader.ReadToEnd();
-
-						XmlSerializer xmlSerializer = new XmlSerializer(typeof(object), new Type[] { typeof(FadeInEvent), typeof(FadeOutEvent), typeof(CrossFadeEvent) });
-
-						var s = xmlSerializer.Deserialize(streamReader);
-
-						var result = JsonSerializer.Deserialize<List<object>>(data);
-
-						foreach (object item in result)
-						{
-							if (item.GetType() == typeof(FadeInEvent))
-							{
-								Events.Add((FadeInEvent)item);
-							}
-							else if (item.GetType() == typeof(FadeOutEvent))
-							{
-								Events.Add((FadeOutEvent)item);
-							}
-						}*/
-
-			//Events = JsonSerializer.Deserialize<List<object>>(data);
 
 			CurrentIndex = 0;
 		}
 
 		public void SaveToFile(string pathToSetFile)
         {
-			//using StreamWriter streamWriter = new StreamWriter(pathToSetFile);
-
 			var serializer = new SharpSerializer();
 			serializer.Serialize(Events, pathToSetFile);
-
-/*			XmlSerializer xmlSerializer = new XmlSerializer(typeof(object), new Type[] { typeof(FadeInEvent), typeof(FadeOutEvent), typeof(CrossFadeEvent) });
-			//xmlSerializer.Serialize(Events, typeof(List<IEvent>));
-
-			foreach (IEvent e in Events)
-            {
-				if (e.GetType() == typeof(FadeInEvent))
-                {
-					xmlSerializer.Serialize(streamWriter, (FadeInEvent)e);
-				}
-				else if (e.GetType() == typeof(FadeOutEvent))
-                {
-					xmlSerializer.Serialize(streamWriter, (FadeOutEvent)e);
-				}
-				else if (e.GetType() == typeof(CrossFadeEvent))
-                {
-					xmlSerializer.Serialize(streamWriter, (CrossFadeEvent)e);
-				}
-			}*/
-
-			//streamWriter.Flush();
 		}
 
 		public void TriggerNext(AudioPlayer audioPlayer)
