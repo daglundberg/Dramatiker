@@ -70,7 +70,7 @@ namespace Dramatiker.Client
 				if (_type == InputType.GPIO)
 				{
 					Console.WriteLine($"Press pedal to move forward in the set...");
-					_controller.WaitForEvent(pin, PinEventTypes.Falling, TimeSpan.MaxValue);
+					_controller.WaitForEvent(pin, PinEventTypes.Falling, new TimeSpan(24,0,0));
 				}
 				else if (_type == InputType.Keyboard)
 				{
