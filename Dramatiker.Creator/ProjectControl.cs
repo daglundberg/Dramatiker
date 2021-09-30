@@ -20,8 +20,13 @@ namespace Dramatiker.SetCreator
 			Project = project;
 			InitializeComponent();
 			ToolStripItem = contextMenuStrip1.Items[0];
-			listBox1.Items.Clear();
-			listBox1.DataSource = Project.Set.AudioItems;
+
+			foreach (IEvent e in Project.Set.Events)
+			{
+				EventControl eventControl = new EventControl(e, Project);
+				flowLayoutPanel1.Controls.Add(eventControl);
+				eventControl.Width = flowLayoutPanel1.Width - 30;
+			}
 		}
 
 		private void addAudioFileToolStripMenuItem_Click(object sender, EventArgs e)

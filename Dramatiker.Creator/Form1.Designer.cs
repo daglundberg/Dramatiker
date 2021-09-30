@@ -70,13 +70,14 @@ namespace Dramatiker.SetCreator
 			// openProjectToolStripMenuItem
 			// 
 			this.openProjectToolStripMenuItem.Name = "openProjectToolStripMenuItem";
-			this.openProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+			this.openProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.openProjectToolStripMenuItem.Text = "Open Project";
+			this.openProjectToolStripMenuItem.Click += new System.EventHandler(this.openProjectToolStripMenuItem_Click);
 			// 
 			// newProjectToolStripMenuItem
 			// 
 			this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
-			this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+			this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.newProjectToolStripMenuItem.Text = "New Project";
 			this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
 			// 
@@ -84,38 +85,38 @@ namespace Dramatiker.SetCreator
 			// 
 			this.closeProjectToolStripMenuItem.Enabled = false;
 			this.closeProjectToolStripMenuItem.Name = "closeProjectToolStripMenuItem";
-			this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+			this.closeProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.closeProjectToolStripMenuItem.Text = "Close Project";
 			this.closeProjectToolStripMenuItem.Click += new System.EventHandler(this.closeProjectToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Enabled = false;
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.saveToolStripMenuItem.Text = "Save";
 			// 
 			// exportSetToolStripMenuItem
 			// 
 			this.exportSetToolStripMenuItem.Enabled = false;
 			this.exportSetToolStripMenuItem.Name = "exportSetToolStripMenuItem";
-			this.exportSetToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+			this.exportSetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.exportSetToolStripMenuItem.Text = "Export Set";
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(140, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 

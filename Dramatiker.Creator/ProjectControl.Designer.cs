@@ -30,7 +30,6 @@ namespace Dramatiker.SetCreator
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.listBox1 = new System.Windows.Forms.ListBox();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.addAudioFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,17 +44,6 @@ namespace Dramatiker.SetCreator
 			this.label1 = new System.Windows.Forms.Label();
 			this.contextMenuStrip1.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// listBox1
-			// 
-			this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-			this.listBox1.FormattingEnabled = true;
-			this.listBox1.ItemHeight = 15;
-			this.listBox1.Location = new System.Drawing.Point(260, 27);
-			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(171, 364);
-			this.listBox1.TabIndex = 2;
 			// 
 			// contextMenuStrip1
 			// 
@@ -158,10 +146,9 @@ namespace Dramatiker.SetCreator
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.flowLayoutPanel1);
-			this.Controls.Add(this.listBox1);
 			this.Margin = new System.Windows.Forms.Padding(3, 60, 3, 3);
 			this.Name = "ProjectControl";
-			this.Size = new System.Drawing.Size(444, 397);
+			this.Size = new System.Drawing.Size(700, 397);
 			this.Load += new System.EventHandler(this.ProjectControl_Load);
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -170,8 +157,6 @@ namespace Dramatiker.SetCreator
 		}
 
 		#endregion
-
-		private System.Windows.Forms.ListBox listBox1;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem addAudioFileToolStripMenuItem;

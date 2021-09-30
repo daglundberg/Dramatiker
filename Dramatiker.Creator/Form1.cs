@@ -80,5 +80,38 @@ namespace Dramatiker.SetCreator
 		{			
 
 		}
+
+		private void openProjectToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//close current project first! 
+			CloseProject();
+
+			//determine set file
+			using OpenFileDialog openSetFile = new();
+			openSetFile.Filter = "Dramatiker set files |*.drama";
+			if (openSetFile.ShowDialog() == DialogResult.OK)
+			{
+
+				var newProj = new Project(Path.GetDirectoryName(openSetFile.FileName));
+				newProj.Set.LoadFromFile(openSetFile.FileName);
+				var projectControl = new ProjectControl(newProj);
+
+				_projectControl = projectControl;
+				this.Controls.Add(_projectControl);
+				menuStrip1.Items.Add(_projectControl.ToolStripItem);
+
+				_projectControl.Dock = DockStyle.Fill;
+				Controls.Remove(menuStrip1);
+				Controls.Add(menuStrip1);
+				menuStrip1.Dock = DockStyle.Top;
+
+			}
+			else
+				return;
+
+			closeProjectToolStripMenuItem.Enabled = true;
+			saveToolStripMenuItem.Enabled = true;
+			exportSetToolStripMenuItem.Enabled = true;
+		}
 	}
 }

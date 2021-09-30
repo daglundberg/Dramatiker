@@ -25,13 +25,14 @@ namespace Dramatiker.SetCreator
 
         private void UpdateLabels()
         {
+            label1.Text = $"({ _set.CurrentIndex}/{ _set.Events.Count})";
             lblNextEvent.Text = "-";
             lblPrevEvent.Text = "-";
 
             if (_set.GetNextEvent() != null)
             {
                 lblNextEvent.Text = "Next: " + _set.GetNextEvent().GetTitle() + " " + _set.GetNextEvent().GetDescription().Replace("\n", " ");
-                btnTriggerNext.Text = $"Trigger Next ({_set.CurrentIndex+1}/{_set.Events.Count})";
+                btnTriggerNext.Text = $"Trigger Next...";
             }
             else
             {
