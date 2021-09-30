@@ -1,6 +1,6 @@
 ﻿namespace Dramatiker.Library
 {
-	public interface IEvent
+	public interface IEvent : ISerial
 	{
 		void ApplyEvent(AudioPlayer audioPlayer);
 

@@ -33,11 +33,11 @@ namespace Dramatiker.SetCreator
 			label1.Text = label;
 			foreach (AudioItem item in audioItems)
 			{
-				comboBox1.Items.Add(item.FriendlyName);
+				comboBox1.Items.Add(item.FileName);
 			}
 
 			if (currentItem != null)
-				comboBox1.Text = currentItem.FriendlyName;
+				comboBox1.Text = currentItem.FileName;
 
 			comboBox1.Text = "Null";
 

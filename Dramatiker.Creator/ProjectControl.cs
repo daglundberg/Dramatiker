@@ -1,14 +1,7 @@
 ﻿using Dramatiker.Library;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Dramatiker.SetCreator
@@ -28,7 +21,7 @@ namespace Dramatiker.SetCreator
 			InitializeComponent();
 			ToolStripItem = contextMenuStrip1.Items[0];
 			listBox1.Items.Clear();
-			listBox1.DataSource = Project.AudioItems;
+			listBox1.DataSource = Project.Set.AudioItems;
 		}
 
 		private void addAudioFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -41,7 +34,7 @@ namespace Dramatiker.SetCreator
 				foreach (string path in openFileDialog.FileNames)
 				{
 					string fileName;
-					if (Path.GetDirectoryName(path) == Project.Folder)
+					if (Path.GetDirectoryName(path) == Project.Location.CurrentLocation)
 					{
 						//File is already in project folder
 						//MessageBox.Show($"{path} is already in the project folder.", "Already included!");
@@ -51,7 +44,7 @@ namespace Dramatiker.SetCreator
 					{
 						MessageBox.Show($"{path} is not already in the project folder. It will get copied now.", "Not included!");
 						//Copy the file to project folder
-						string newFileName = Path.Combine(Project.Folder, Path.GetFileName(path));
+						string newFileName = Path.Combine(Project.Location.CurrentLocation, Path.GetFileName(path));
 
 						if (File.Exists(newFileName))
 						{
@@ -67,18 +60,18 @@ namespace Dramatiker.SetCreator
 
 					}
 					if (fileName != null)
-						Project.AudioItems.Add(new AudioItem(fileName, true, 1));
+						Project.Set.AudioItems.Add(new AudioItem(Project.Location, Path.GetFileName(fileName), true, 1));
 				}
 			}
 		}
 
 		private void createFadeInEventToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Project.AudioItems.Count > 0)
+			if (Project.Set.AudioItems.Count > 0)
 			{
-				var fadeInEvent = new FadeInEvent(Project.AudioItems[0], 15000);
+				var fadeInEvent = new FadeInEvent(Project.Set.AudioItems[0], 15000);
 
-				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeInEvent, Project.AudioItems.ToList());
+				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeInEvent, Project.Set.AudioItems.ToList());
 				if (customPropertyGridForm.ShowDialog() == DialogResult.OK)
 				{
 					Project.Set.Events.Add(fadeInEvent);
@@ -100,11 +93,11 @@ namespace Dramatiker.SetCreator
 
 		private void createFadeOutEventToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Project.AudioItems.Count > 0)
+			if (Project.Set.AudioItems.Count > 0)
 			{
-				var fadeOutEvent = new FadeOutEvent(Project.AudioItems[0], 30000);
+				var fadeOutEvent = new FadeOutEvent(Project.Set.AudioItems[0], 30000);
 
-				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeOutEvent, Project.AudioItems.ToList());
+				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeOutEvent, Project.Set.AudioItems.ToList());
 				if (customPropertyGridForm.ShowDialog() == DialogResult.OK)
 				{
 					Project.Set.Events.Add(fadeOutEvent);
@@ -121,11 +114,11 @@ namespace Dramatiker.SetCreator
 
 		private void createCrossFadeEventToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (Project.AudioItems.Count > 1)
+			if (Project.Set.AudioItems.Count > 1)
 			{
-				var fadeOutEvent = new CrossFadeEvent(Project.AudioItems[0], Project.AudioItems[1], 30000);
+				var fadeOutEvent = new CrossFadeEvent(Project.Set.AudioItems[0], Project.Set.AudioItems[1], 30000);
 
-				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeOutEvent, Project.AudioItems.ToList());
+				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeOutEvent, Project.Set.AudioItems.ToList());
 				if (customPropertyGridForm.ShowDialog() == DialogResult.OK)
 				{
 					Project.Set.Events.Add(fadeOutEvent);
@@ -149,7 +142,7 @@ namespace Dramatiker.SetCreator
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			string path = Path.Combine(Project.Folder, "set.xml");
+			string path = Path.Combine(Project.Location.CurrentLocation, "set.drama");
 			Project.Set.SaveToFile(path);
         }
     }

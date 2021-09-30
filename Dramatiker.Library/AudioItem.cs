@@ -1,29 +1,50 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Dramatiker.Library
 {
-	public class AudioItem : IEquatable<AudioItem>
+	public class LocationObject
 	{
-		public AudioItem(string fileName, bool isLooping, float volume = 1.0f)
+		public LocationObject(string folder)
+		{
+			CurrentLocation = folder;
+		}
+
+		public string CurrentLocation
+		{
+			get; private set;
+		}
+	}
+
+	public class AudioItem : IEquatable<AudioItem>, ISerial
+	{
+		public AudioItem(LocationObject location, string fileName, bool isLooping, float volume = 1.0f)
 		{			
 			FileName = fileName;
 			IsLooping = isLooping;
 			Volume = volume;
+			_location = location;
 		}
 
-		public AudioItem() { }
+		public AudioItem(LocationObject location)
+		{
+			_location = location;
+		}
+
+		private LocationObject _location;
 
 		public string FileName {  get; set; }
 
 		public bool IsLooping { get; set; }
 
 		public float Volume { get; set; }
-		public string FriendlyName
+
+		public string FullFilePath
 		{
 			get
-            {
-				return Path.GetFileName(FileName);
+			{
+				return Path.Combine(_location.CurrentLocation, FileName);
 			}
 		}
 
@@ -45,7 +66,19 @@ namespace Dramatiker.Library
 
 		public override string ToString()
 		{
-			return FriendlyName;
+			return FileName;
+		}
+
+		public void LoadFromText(string[] data, List<AudioItem> audioItems)
+		{
+			FileName = data[1];
+			IsLooping = bool.Parse(data[2]);
+			Volume = float.Parse(data[3]);
+		}
+
+		public string TextFromObject()
+		{
+			return $"AudioItem,{FileName},{IsLooping},{Volume}";
 		}
 	}
 }

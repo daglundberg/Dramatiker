@@ -32,7 +32,7 @@ namespace Dramatiker.Library
 			}
 			else
 			{
-				handle = Bass.CreateStream(item.FileName, 0, 0, item.IsLooping? BassFlags.Loop: BassFlags.Default);
+				handle = Bass.CreateStream(item.FullFilePath, 0, 0, item.IsLooping? BassFlags.Loop: BassFlags.Default);
 				_playingItems.Add(item, handle);
 			}
 

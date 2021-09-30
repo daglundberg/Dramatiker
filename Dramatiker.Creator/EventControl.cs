@@ -27,7 +27,7 @@ namespace Dramatiker.SetCreator
 
 		private void EventControl_Click(object sender, EventArgs e)
 		{
-			CustomPropertyGridForm gridForm = new CustomPropertyGridForm(Event, _projectReference.AudioItems.ToList());
+			CustomPropertyGridForm gridForm = new CustomPropertyGridForm(Event, _projectReference.Set.AudioItems.ToList());
 			if (gridForm.ShowDialog() == DialogResult.OK)
 			{
 

@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Dramatiker.Library
 {
 	[Serializable]
-	public class FadeInEvent : IEvent
+	public class FadeInEvent : IEvent, ISerial
 	{
 		public FadeInEvent(AudioItem itemToFade, int fadeLength)
 		{
@@ -37,6 +38,17 @@ namespace Dramatiker.Library
 		public override string ToString()
 		{
 			return $"{GetTitle()}\n{GetDescription()}";
+		}
+
+		public void LoadFromText(string[] data, List<AudioItem> audioItems)
+		{
+			ItemToFadeIn = audioItems.Find(x => x.FileName == data[1]);
+			FadeLength = int.Parse(data[2]);
+		}
+
+		public string TextFromObject()
+		{
+			return $"FadeInEvent,{ItemToFadeIn.FileName},{FadeLength}";
 		}
 	}
 }

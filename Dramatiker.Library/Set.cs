@@ -1,16 +1,12 @@
-﻿using Polenter.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-
+using System.IO;
 
 namespace Dramatiker.Library
 {
 	public class Set
 	{
-		public string Name { get; set; }
-
-		[DataMember]
+		public List<AudioItem> AudioItems { get; set; }
 		public List<IEvent> Events { get; set; }
 		public int CurrentIndex { get; private set; }
 
@@ -18,20 +14,59 @@ namespace Dramatiker.Library
 		{
 			CurrentIndex = 0;
 			Events = new List<IEvent>();
+			AudioItems = new List<AudioItem>();
 		}
 
 		public void LoadFromFile(string pathToSetFile)
 		{
-			var serializer = new SharpSerializer();
-			Events = (List<IEvent>)serializer.Deserialize(pathToSetFile);
+			var locationObject = new LocationObject(Path.GetDirectoryName(pathToSetFile));
+
+			using StreamReader streamReader = new StreamReader(pathToSetFile);
+			while (streamReader.EndOfStream == false)
+			{
+				var line = streamReader.ReadLine().Split(',');
+				switch (line[0])
+				{
+					case "AudioItem":
+						var ai = new AudioItem(locationObject);
+						ai.LoadFromText(line, AudioItems);
+						AudioItems.Add(ai);
+						break;
+					case "FadeInEvent":
+						var fie = new FadeInEvent();
+						fie.LoadFromText(line, AudioItems);
+						Events.Add(fie);
+						break;
+					case "FadeOutEvent":
+						var foe = new FadeOutEvent();
+						foe.LoadFromText(line, AudioItems);
+						Events.Add(foe);
+						break;
+					case "CrossFadeEvent":
+						var cfe = new CrossFadeEvent();
+						cfe.LoadFromText(line, AudioItems);
+						Events.Add(cfe);
+						break;
+				}
+			}
 
 			CurrentIndex = 0;
 		}
 
 		public void SaveToFile(string pathToSetFile)
         {
-			var serializer = new SharpSerializer();
-			serializer.Serialize(Events, pathToSetFile);
+			using StreamWriter streamWriter = new StreamWriter(pathToSetFile);
+			foreach (AudioItem audioItem in AudioItems)
+			{
+				streamWriter.WriteLine(audioItem.TextFromObject());
+			}
+
+			foreach (IEvent e in Events)
+			{
+				streamWriter.WriteLine(e.TextFromObject());
+			}
+			streamWriter.Flush();
+
 		}
 
 		public void TriggerNext(AudioPlayer audioPlayer)

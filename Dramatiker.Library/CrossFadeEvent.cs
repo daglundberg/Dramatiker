@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Dramatiker.Library
 {
@@ -47,6 +48,18 @@ namespace Dramatiker.Library
         public override string ToString()
 		{
 			return $"{GetTitle()}\n{GetDescription()}";
+		}
+
+		public void LoadFromText(string[] data, List<AudioItem> audioItems)
+		{
+			ItemToFadeOut = audioItems.Find(x => x.FileName == data[1]);
+			ItemToFadeIn = audioItems.Find(x => x.FileName == data[2]);
+			FadeLength = int.Parse(data[3]);
+		}
+
+		public string TextFromObject()
+		{
+			return $"CrossFadeEvent,{ItemToFadeOut.FileName},{ItemToFadeIn.FileName},{FadeLength}";
 		}
 	}
 }
