@@ -14,9 +14,20 @@ namespace Dramatiker.Client
 			Console.WriteLine("Welcome to Dramatiker! Written by Dag Lundberg (c) 2021");
 
 			Set set = new Set();
-			var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Dramatiker", "Set", "set.drama");
-			set.LoadFromFile(path);
 
+			string path = "";
+
+			if (File.Exists("/media/DRAMATIKER/set.drama"))
+			{
+				path = "/media/DRAMATIKER/set.drama";
+			}
+			else
+			{
+				path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Dramatiker", "Set", "set.drama");
+			}
+
+			set.LoadFromFile(path);
+			Console.WriteLine($"Loaded: {path}");
 			using var waiter = new Waiter();
 
 			using var audioPlayer = new AudioPlayer();
