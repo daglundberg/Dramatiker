@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dramatiker.Library", "Drama
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dramatiker.Creator", "Dramatiker.Creator\Dramatiker.Creator.csproj", "{449CAF7C-945B-4DB6-ADED-9B351715C664}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dramatiker.Experiments", "Dramatiker.Experiments\Dramatiker.Experiments.csproj", "{3AADC898-2838-425B-9739-3AFBFC21BCD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{449CAF7C-945B-4DB6-ADED-9B351715C664}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{449CAF7C-945B-4DB6-ADED-9B351715C664}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{449CAF7C-945B-4DB6-ADED-9B351715C664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AADC898-2838-425B-9739-3AFBFC21BCD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AADC898-2838-425B-9739-3AFBFC21BCD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AADC898-2838-425B-9739-3AFBFC21BCD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AADC898-2838-425B-9739-3AFBFC21BCD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

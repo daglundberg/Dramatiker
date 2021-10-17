@@ -72,7 +72,7 @@ namespace Dramatiker.Client
 				{
 					_type = InputType.GPIO;
 					_controller = new GpioController();
-					_controller.OpenPin(pin, PinMode.InputPullUp);
+					_controller.OpenPin(pin, PinMode.Input);
 				}
 			}
 
