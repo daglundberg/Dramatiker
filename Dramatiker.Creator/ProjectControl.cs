@@ -117,27 +117,6 @@ namespace Dramatiker.SetCreator
 			}
 		}
 
-		private void createCrossFadeEventToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (Project.Set.AudioItems.Count > 1)
-			{
-				var fadeOutEvent = new CrossFadeEvent(Project.Set.AudioItems[0], Project.Set.AudioItems[1], 30000);
-
-				CustomPropertyGridForm customPropertyGridForm = new CustomPropertyGridForm(fadeOutEvent, Project.Set.AudioItems.ToList());
-				if (customPropertyGridForm.ShowDialog() == DialogResult.OK)
-				{
-					Project.Set.Events.Add(fadeOutEvent);
-					EventControl eventControl = new EventControl(fadeOutEvent, Project);
-					flowLayoutPanel1.Controls.Add(eventControl);
-					eventControl.Width = flowLayoutPanel1.Width - 30;
-				}
-			}
-			else
-			{
-				MessageBox.Show("Can't create a Cross-Fade Event with less than two audio items in the pool.");
-			}
-		}
-
         private void playbackToolStripMenuItem_Click(object sender, EventArgs e)
         {
 			Project.Set.Restart();

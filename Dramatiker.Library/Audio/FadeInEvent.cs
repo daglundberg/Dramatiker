@@ -4,7 +4,6 @@ using System.ComponentModel;
 
 namespace Dramatiker.Library
 {
-	[Serializable]
 	public class FadeInEvent : IEvent, ISerial
 	{
 		public FadeInEvent(AudioItem itemToFade, int fadeLength)

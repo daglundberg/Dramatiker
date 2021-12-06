@@ -8,6 +8,7 @@ namespace Dramatiker.Library
 	{
 		public List<AudioItem> AudioItems { get; set; }
 		public List<IEvent> Events { get; set; }
+		public List<Cue> Cues { get; set; }
 		public int CurrentIndex { get; private set; }
 
 		public Set()
@@ -15,6 +16,7 @@ namespace Dramatiker.Library
 			CurrentIndex = 0;
 			Events = new List<IEvent>();
 			AudioItems = new List<AudioItem>();
+			Cues = new List<Cue>();
 		}
 
 		public void LoadFromFile(string pathToSetFile)
@@ -42,10 +44,10 @@ namespace Dramatiker.Library
 						foe.LoadFromText(line, AudioItems);
 						Events.Add(foe);
 						break;
-					case "CrossFadeEvent":
-						var cfe = new CrossFadeEvent();
-						cfe.LoadFromText(line, AudioItems);
-						Events.Add(cfe);
+					case "Cue":
+						var cue = new Cue();
+						cue.LoadFromText(line, AudioItems);
+						Cues.Add(cue);
 						break;
 				}
 			}
@@ -56,6 +58,7 @@ namespace Dramatiker.Library
 		public void SaveToFile(string pathToSetFile)
         {
 			using StreamWriter streamWriter = new StreamWriter(pathToSetFile);
+
 			foreach (AudioItem audioItem in AudioItems)
 			{
 				streamWriter.WriteLine(audioItem.TextFromObject());
@@ -65,30 +68,40 @@ namespace Dramatiker.Library
 			{
 				streamWriter.WriteLine(e.TextFromObject());
 			}
+
+			foreach (Cue cue in Cues)
+			{
+				streamWriter.WriteLine(cue.TextFromObject());
+			}
+
 			streamWriter.Flush();
 
 		}
 
 		public void TriggerNext(AudioPlayer audioPlayer)
 		{
-			Console.WriteLine($"{CurrentIndex + 1} / {Events.Count}: {Events[CurrentIndex]}");
+			Console.WriteLine($"{CurrentIndex + 1} / {Cues.Count}: {Cues[CurrentIndex]}");
 
-			Events[CurrentIndex].ApplyEvent(audioPlayer);
+			foreach (IEvent e in Cues[CurrentIndex].Events)
+			{
+				e.ApplyEvent(audioPlayer);
+			}
+
 			CurrentIndex++;
 		}
 
-		public IEvent GetNextEvent()
+		public Cue GetNextCue()
         {
-			if (CurrentIndex < Events.Count)
-				return Events[CurrentIndex];
+			if (CurrentIndex < Cues.Count)
+				return Cues[CurrentIndex];
 			else
 				return null;
         }
 
-		public IEvent GetPreviousEvent()
+		public Cue GetPreviousCue()
         {
 			if (CurrentIndex > 0)
-				return Events[CurrentIndex - 1];
+				return Cues[CurrentIndex - 1];
 			else
 				return null;
         }
@@ -112,7 +125,7 @@ namespace Dramatiker.Library
 		{
 			get
 			{
-				return CurrentIndex >= Events.Count;
+				return CurrentIndex >= Cues.Count;
 			}
 		}
 	}

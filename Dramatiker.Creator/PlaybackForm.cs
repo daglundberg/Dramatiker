@@ -25,13 +25,13 @@ namespace Dramatiker.SetCreator
 
         private void UpdateLabels()
         {
-            label1.Text = $"({ _set.CurrentIndex}/{ _set.Events.Count})";
+            label1.Text = $"({ _set.CurrentIndex}/{ _set.Cues.Count})";
             lblNextEvent.Text = "-";
             lblPrevEvent.Text = "-";
 
-            if (_set.GetNextEvent() != null)
+            if (_set.GetNextCue() != null)
             {
-                lblNextEvent.Text = "Next: " + _set.GetNextEvent().GetTitle() + " " + _set.GetNextEvent().GetDescription().Replace("\n", " ");
+                lblNextEvent.Text = "Next: " + _set.GetNextCue().GetTitle() + " " + _set.GetNextCue().GetDescription().Replace("\n", " ");
                 btnTriggerNext.Text = $"Trigger Next...";
             }
             else
@@ -39,9 +39,9 @@ namespace Dramatiker.SetCreator
                 btnTriggerNext.Enabled = false;
             }
 
-            if (_set.GetPreviousEvent() != null)
+            if (_set.GetPreviousCue() != null)
             {
-                lblPrevEvent.Text = "Last: " + _set.GetPreviousEvent().GetTitle() + " " + _set.GetPreviousEvent().GetDescription().Replace("\n", " ");
+                lblPrevEvent.Text = "Last: " + _set.GetPreviousCue().GetTitle() + " " + _set.GetPreviousCue().GetDescription().Replace("\n", " ");
             }
         }
 

@@ -98,7 +98,6 @@ namespace Dramatiker.SetCreator
 			this.createCrossFadeEventToolStripMenuItem.Name = "createCrossFadeEventToolStripMenuItem";
 			this.createCrossFadeEventToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
 			this.createCrossFadeEventToolStripMenuItem.Text = "Create Cross-Fade Event";
-			this.createCrossFadeEventToolStripMenuItem.Click += new System.EventHandler(this.createCrossFadeEventToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
