@@ -31,6 +31,7 @@ namespace Dramatiker.Client
 			LocationObject location = new LocationObject(path);
 			Set set = new Set();
 
+
 			var havet1 = new AudioItem(location, "Havet 1.mp3", false);
 			var havet2 = new AudioItem(location, "Havet 2.mp3", false);
 			var havet6 = new AudioItem(location, "Havet 6.mp3", false);
