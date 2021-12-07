@@ -9,14 +9,14 @@ namespace Dramatiker.SetCreator
 {
 	public partial class EventControl : UserControl
 	{
-		public IEvent Event { get; private set; }
+		public IAudioEvent Event { get; private set; }
 		private Project _projectReference;
 		private EventControl()
 		{
 			InitializeComponent();
 		}
 
-		public EventControl(IEvent eventObject, Project project)
+		public EventControl(IAudioEvent eventObject, Project project)
 		{
 			Event = eventObject;
 			_projectReference = project;

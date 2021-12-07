@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Dramatiker.Library
 {
-	public class FadeOutEvent : IEvent
+	public class FadeOutEvent : IAudioEvent
 	{
 		public FadeOutEvent(AudioItem itemToFade, int fadeLength)
 		{
@@ -22,7 +22,7 @@ namespace Dramatiker.Library
 		[DisplayName("Fade Out Length (milliseconds)")]
 		public int FadeLength { get; set; }
 
-		public void ApplyEvent(AudioPlayer audioPlayer)
+		public void ApplyAudio(AudioPlayer audioPlayer)
 		{
 			audioPlayer.StopAudioItem(ItemToFadeOut, FadeLength);
 		}

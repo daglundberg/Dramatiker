@@ -13,6 +13,7 @@ namespace Dramatiker.Library
 
 		public Cue(string name = "Nameless Cue")
 		{
+			_events = new();
 			Name = name;
 		}
 

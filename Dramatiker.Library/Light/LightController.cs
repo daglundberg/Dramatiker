@@ -6,17 +6,6 @@ namespace Dramatiker.Library
 	/// <summary>
 	/// Controller maintains a state and interface for interacting with the Enttec
 	/// DMX USB Pro.
-	/// 
-	/// Key methods include:
-	///   `SetChannel(channel, value)` - Sets channel to value
-	///   `Submit()` - Send state to device
-	///   `Close()` - Close serial connection to device
-	/// 
-	/// Convenience methods:
-	///   `ClearChannels()` - Sets all channels to 0
-	///   `AllChannels_on()` -  Sets all channels to 255
-	///   `SetAllChannels(value)` - Sets all channels to value
-	/// 
 	/// </summary>
 	public class LightController
 	{
@@ -24,7 +13,6 @@ namespace Dramatiker.Library
 		public int DmxSize;
 		public int Baudrate;
 		public int Timeout;
-		public bool AutoSubmit;
 		public byte[] Message;
 
 		const byte SignalStart = 0x7E;
@@ -37,22 +25,20 @@ namespace Dramatiker.Library
 		/// <param name="dmxSize">Number of channels from 24 to 512.</param>
 		/// <param name="baudrate">Baudrate for serial connection.</param>
 		/// <param name="timeout">Serial connection timeout.</param>
-		/// <param name="autoSubmit">Enable or disable default automatic submission.</param>
-		public LightController(string port, int dmxSize = 48, int baudrate = 57600, int timeout = 1000, bool autoSubmit = false)
+		public LightController(string port, int dmxSize = 512, int baudrate = 57600, int timeout = 1000)
 		{
-			String[] PortNames = SerialPort.GetPortNames();
+/*			String[] PortNames = SerialPort.GetPortNames();
 
 			Console.WriteLine("Available Ports:");
 			foreach (string s in PortNames)
 			{
 				Console.WriteLine("   {0}", s);
-			}
+			}*/
 
 			Port = port;
 			DmxSize = dmxSize;
 			Baudrate = baudrate;
 			Timeout = timeout;
-			AutoSubmit = autoSubmit;
 
 			if (DmxSize > 512 || DmxSize < 24)
 			{
@@ -101,10 +87,10 @@ namespace Dramatiker.Library
 		{
 			var span = Channels.Slice(redChannel, 4);
 
-			span[0] = color.Red;
-			span[1] = color.Green;
-			span[2] = color.Blue;
-			span[3] = color.White;
+			span[0] = color.R;
+			span[1] = color.G;
+			span[2] = color.B;
+			//span[3] = color.A;
 		}
 
 		/// <summary>
@@ -142,7 +128,7 @@ namespace Dramatiker.Library
 		/// <summary>
 		/// Send the message to the widget.
 		/// </summary>
-		public void Submit()
+		public void Flush()
 		{
 			_serialPort.Write(Message, 0, Message.Length);
 		}

@@ -7,14 +7,14 @@ namespace Dramatiker.Library
 	public class Set
 	{
 		public List<AudioItem> AudioItems { get; set; }
-		public List<IEvent> Events { get; set; }
+		public List<IAudioEvent> Events { get; set; }
 		public List<Cue> Cues { get; set; }
 		public int CurrentIndex { get; private set; }
 
 		public Set()
 		{
 			CurrentIndex = 0;
-			Events = new List<IEvent>();
+			Events = new List<IAudioEvent>();
 			AudioItems = new List<AudioItem>();
 			Cues = new List<Cue>();
 		}
@@ -64,7 +64,7 @@ namespace Dramatiker.Library
 				streamWriter.WriteLine(audioItem.TextFromObject());
 			}
 
-			foreach (IEvent e in Events)
+			foreach (IAudioEvent e in Events)
 			{
 				streamWriter.WriteLine(e.TextFromObject());
 			}
@@ -78,14 +78,20 @@ namespace Dramatiker.Library
 
 		}
 
-		public void TriggerNext(AudioPlayer audioPlayer)
+		public void TriggerNext(AudioPlayer audioPlayer, LightPlayer lightPlayer)
 		{
 			Console.WriteLine($"{CurrentIndex + 1} / {Cues.Count}: {Cues[CurrentIndex]}");
 
 			foreach (IEvent e in Cues[CurrentIndex].Events)
 			{
-				e.ApplyEvent(audioPlayer);
+				if (e is IAudioEvent)
+					((IAudioEvent)e).ApplyAudio(audioPlayer);
+
+				if (e is ILightRegion)
+					((ILightRegion)e).ApplyLight(lightPlayer);
 			}
+
+			lightPlayer.Flush();
 
 			CurrentIndex++;
 		}

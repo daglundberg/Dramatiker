@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Dramatiker.Library
 {
-	public class FadeInEvent : IEvent, ISerial
+	public class FadeInEvent : IAudioEvent, ISerial
 	{
 		public FadeInEvent(AudioItem itemToFade, int fadeLength)
 		{
@@ -20,10 +19,11 @@ namespace Dramatiker.Library
 		[DisplayName("Fade In Length (milliseconds)")]
 		public int FadeLength { get; set; }
 
-		public void ApplyEvent(AudioPlayer audioPlayer)
+		public void ApplyAudio(AudioPlayer audioPlayer)
 		{
 			audioPlayer.PlayAudioItem(ItemToFadeIn, FadeLength);
 		}
+
 		public string GetDescription()
 		{
 			return $"{ ItemToFadeIn }\nover {decimal.Round((decimal)FadeLength / (decimal)1000, 3)} seconds";

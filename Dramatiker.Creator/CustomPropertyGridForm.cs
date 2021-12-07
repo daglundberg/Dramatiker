@@ -19,9 +19,9 @@ namespace Dramatiker.SetCreator
 			InitializeComponent();
 		}
 
-		public IEvent Event { get; private set; }
+		public IAudioEvent Event { get; private set; }
 		PropertyInfo[] properties;
-		public CustomPropertyGridForm(IEvent eventObject, List<AudioItem> audioItems)
+		public CustomPropertyGridForm(IAudioEvent eventObject, List<AudioItem> audioItems)
 		{
 			Event = eventObject;
 			InitializeComponent();

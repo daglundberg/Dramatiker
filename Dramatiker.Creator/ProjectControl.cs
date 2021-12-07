@@ -21,7 +21,7 @@ namespace Dramatiker.SetCreator
 			InitializeComponent();
 			ToolStripItem = contextMenuStrip1.Items[0];
 
-			foreach (IEvent e in Project.Set.Events)
+			foreach (IAudioEvent e in Project.Set.Events)
 			{
 				EventControl eventControl = new EventControl(e, Project);
 				flowLayoutPanel1.Controls.Add(eventControl);
