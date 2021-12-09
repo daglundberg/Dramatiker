@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dramatiker.Library.Lights;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -9,6 +10,7 @@ namespace Dramatiker.Library
 		public List<AudioItem> AudioItems { get; set; }
 		public List<IAudioEvent> Events { get; set; }
 		public List<Cue> Cues { get; set; }
+		public List<Fixture> Fixtures { get; set; }
 		public int CurrentIndex { get; private set; }
 
 		public Set()
@@ -17,6 +19,7 @@ namespace Dramatiker.Library
 			Events = new List<IAudioEvent>();
 			AudioItems = new List<AudioItem>();
 			Cues = new List<Cue>();
+			Fixtures = new List<Fixture>();
 		}
 
 		public void LoadFromFile(string pathToSetFile)
@@ -75,7 +78,6 @@ namespace Dramatiker.Library
 			}
 
 			streamWriter.Flush();
-
 		}
 
 		public void TriggerNext(AudioPlayer audioPlayer, LightPlayer lightPlayer)

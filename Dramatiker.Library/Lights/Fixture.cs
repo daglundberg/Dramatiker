@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Dramatiker.Library
+namespace Dramatiker.Library.Lights
 {
-	public class Light
+	public class Fixture
 	{
 		public string Name { get; set; }
 
@@ -22,6 +22,9 @@ namespace Dramatiker.Library
 		{
 			_lightRegions.Add(lightRegion);
 			//TODO: Remove regions that are not having an effect on the output anymore.
+			if (_lightRegions.Count > 2)
+				_lightRegions.RemoveAt(0);
+			//TODO: I don't think the above is thread safe.
 		}
 
 		public Color GetColor(float delta)

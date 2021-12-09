@@ -1,4 +1,4 @@
-﻿namespace Dramatiker.Library
+﻿namespace Dramatiker.Library.Lights
 {
 	public struct Color
 	{
@@ -26,11 +26,19 @@
 		public static Color Crimson		{ get => new Color(220,	020, 060); }
 		public static Color MagentaHaze { get => new Color(159, 069, 118); }
 		public static Color Blue		{ get => new Color(000,	000, 255); }
+		public static Color BlueWhite	{ get => new Color(080,	080, 190); }
 		public static Color Red			{ get => new Color(255, 000, 000); }
 		public static Color Green		{ get => new Color(000,	255, 000); }
 		public static Color Black		{ get => new Color(000,	000, 000); }
 		public static Color White		{ get => new Color(255,	255, 255); }
+		public static Color WarmWhite	{ get => new Color(150,	140, 130); }
+		public static Color PinkWhite	{ get => new Color(150,	090, 140); }
+		public static Color Pink		{ get => new Color(150,	000, 140); }
+		public static Color Yellow		{ get => new Color(200,	190, 000); }
+		public static Color Orange		{ get => new Color(200,	100, 000); }
+		public static Color OrangeWhite	{ get => new Color(250,	190, 090); }
 		public static Color Purple		{ get => new Color(128,	000, 128); }
+		public static Color Turquise	{ get => new Color(000,	150, 150); }
 		public static Color Transparent	{ get => new Color(000,	000, 000, 000); }
 
 		public static Color Lerp(Color s, Color t, float k)

@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Dramatiker.Library.Lights;
+using System;
 using System.IO.Ports;
 
-namespace Dramatiker.Library
+namespace Dramatiker.Library.Lights.Backends
 {
 	/// <summary>
 	/// Controller maintains a state and interface for interacting with the Enttec
 	/// DMX USB Pro.
 	/// </summary>
-	public class LightController
+	public class EntecUsbPro : IDmxBackend
 	{
-		public string Port;
-		public int DmxSize;
-		public int Baudrate;
-		public int Timeout;
-		public byte[] Message;
+		public string Port { get; private set; }
+		public int DmxSize { get; private set; }
+		public int Baudrate { get; private set; }
+		public int Timeout { get; private set; }
+		public byte[] Message { get; private set; }
 
 		const byte SignalStart = 0x7E;
 		const byte SignalEnd = 0xE7;
@@ -25,7 +26,7 @@ namespace Dramatiker.Library
 		/// <param name="dmxSize">Number of channels from 24 to 512.</param>
 		/// <param name="baudrate">Baudrate for serial connection.</param>
 		/// <param name="timeout">Serial connection timeout.</param>
-		public LightController(string port, int dmxSize = 512, int baudrate = 57600, int timeout = 1000)
+		public EntecUsbPro(string port, int dmxSize = 512, int baudrate = 57600, int timeout = 1000)
 		{
 /*			String[] PortNames = SerialPort.GetPortNames();
 
@@ -54,7 +55,15 @@ namespace Dramatiker.Library
 			_serialPort.ReadTimeout = timeout;
 			_serialPort.WriteTimeout = timeout;
 
-			_serialPort.Open();
+			try
+			{
+				_serialPort.Open();
+			}
+			catch (System.IO.FileNotFoundException e)
+			{
+				Console.WriteLine("Could not connect to the Enttec DMX USB Pro.");
+				Console.WriteLine(e.Message);
+			}
 
 			PrepareMessage();
 		}
@@ -83,9 +92,9 @@ namespace Dramatiker.Library
 			Channels[channel] = value;
 		}
 
-		public void SetColor(int redChannel, Color color)
+		public void SetColor(Fixture light, Color color)
 		{
-			var span = Channels.Slice(redChannel, 4);
+			var span = Channels.Slice(light.FirstChannel, 4);
 
 			span[0] = color.R;
 			span[1] = color.G;
@@ -93,44 +102,30 @@ namespace Dramatiker.Library
 			//span[3] = color.A;
 		}
 
-		/// <summary>
-		/// Sets all channels to 0.
-		/// </summary>
 		public void ClearChannels()
 		{
 			Channels.Clear();
 		}
 
-		/// <summary>
-		/// Sets all channels to 255.
-		/// </summary>
 		public void AllChannelsOn()
 		{
 			Channels.Fill(255);
 		}
 
-		/// <summary>
-		/// Sets all channels to a specific value.
-		/// </summary>
 		public void SetAllChannels(byte value)
 		{
 			Channels.Fill(value);
 		}
 
-		/// <summary>
-		/// Close the connection.
-		/// </summary>
 		public void Close()
 		{
 			_serialPort.Close();
 		}
 
-		/// <summary>
-		/// Send the message to the widget.
-		/// </summary>
 		public void Flush()
 		{
-			_serialPort.Write(Message, 0, Message.Length);
+			if (_serialPort.IsOpen)
+				_serialPort.Write(Message, 0, Message.Length);
 		}
 	}
 }

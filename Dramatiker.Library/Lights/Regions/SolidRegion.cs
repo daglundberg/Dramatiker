@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Dramatiker.Library.Lights;
+using System.Collections.Generic;
 
 namespace Dramatiker.Library
 {
@@ -7,19 +8,14 @@ namespace Dramatiker.Library
 		public float Opacity { get; private set; }
 		public Color Color;
 		public float FadeIn;
-		private Light _light;
+		private Fixture _fixture;
 
-		public SolidRegion(Color color, float fadeIn)
+		public SolidRegion(Fixture fixture, Color color, float fadeIn)
 		{
+			_fixture = fixture;
 			Color = color;
 			FadeIn = fadeIn;
 			Opacity = 0;
-		}
-
-		public void Initialize(Light light)
-		{
-			_light = light;
-			Opacity = 0f;
 		}
 
 		public Color GetColor(float delta)
@@ -36,7 +32,7 @@ namespace Dramatiker.Library
 
 		public void ApplyLight(LightPlayer lightPlayer)
 		{
-			_light.AddRegion(this);
+			_fixture.AddRegion(this);
 		}
 
 		public string GetTitle()

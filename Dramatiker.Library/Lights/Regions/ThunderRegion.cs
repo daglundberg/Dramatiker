@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dramatiker.Library.Lights;
+using System;
 using System.Collections.Generic;
 
 namespace Dramatiker.Library
@@ -8,14 +9,9 @@ namespace Dramatiker.Library
 		private float flashPos = 0;
 		private Random rand;
 
-		public ThunderRegion(float fadeIn) : base(new Color(0,0,110), new Color(0,40,20), fadeIn, 1.4f)
+		public ThunderRegion(Fixture fixture, float fadeIn) : base(fixture, new Color(0,0,110), new Color(0,40,20), fadeIn, 1.4f)
 		{
 			rand = new Random();
-		}
-
-		public new void Initialize(Light light)
-		{
-			base.Initialize(light);
 		}
 
 		public override Color GetColor(float delta)
@@ -37,9 +33,9 @@ namespace Dramatiker.Library
 			return c;
 		}
 
-		public void ApplyLight(LightPlayer lightPlayer)
+		public override void ApplyLight(LightPlayer lightPlayer)
 		{
-			_light.AddRegion(this);
+			_fixture.AddRegion(this);
 		}
 
 		public string GetTitle()

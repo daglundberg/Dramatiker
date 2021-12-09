@@ -1,4 +1,6 @@
-﻿namespace Dramatiker.Library
+﻿using Dramatiker.Library.Lights;
+
+namespace Dramatiker.Library
 {
 	public interface IEvent : ISerial
 	{
@@ -13,8 +15,6 @@
 
 	public interface ILightRegion : IEvent
 	{
-		void Initialize(Light light);
-
 		Color GetColor(float delta);
 
 		float Opacity { get; }

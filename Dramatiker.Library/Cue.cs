@@ -17,6 +17,18 @@ namespace Dramatiker.Library
 			Name = name;
 		}
 
+		public Cue(string name, IEvent[] events)
+		{
+			_events = new(events);
+			Name = name;
+		}
+
+		public Cue(IEvent[] events)
+		{
+			_events = new(events);
+			Name = "Nameless Cue";
+		}
+
 		public IEnumerable<IEvent> Events
 		{
 			get

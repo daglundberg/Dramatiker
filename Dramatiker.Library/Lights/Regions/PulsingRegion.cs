@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dramatiker.Library.Lights;
+using System;
 using System.Collections.Generic;
 
 namespace Dramatiker.Library
@@ -11,21 +12,17 @@ namespace Dramatiker.Library
 		public float FadeIn;
 		protected float _time = 0;
 		public float Frequency = 1;
-		protected Light _light;
+		protected Fixture _fixture;
 
-		public PulsingRegion(Color color1, Color color2, float fadeIn, float frequency)
+		public PulsingRegion(Fixture fixture, Color color1, Color color2, float fadeIn, float frequency)
 		{
 			Color1 = color1;
 			Color2 = color2;
 			Frequency = frequency;
 			FadeIn = fadeIn;
 			Opacity = 0;
-		}
 
-		public void Initialize(Light light)
-		{
-			_light = light;
-			Opacity = 0f;
+			_fixture = fixture;
 			_time = 0;
 		}
 
@@ -46,9 +43,9 @@ namespace Dramatiker.Library
 			return new Color(c, (byte)(Opacity * 255));
 		}
 
-		public void ApplyLight(LightPlayer lightPlayer)
+		public virtual void ApplyLight(LightPlayer lightPlayer)
 		{
-			_light.AddRegion(this);
+			_fixture.AddRegion(this);
 		}
 
 		public string GetTitle()

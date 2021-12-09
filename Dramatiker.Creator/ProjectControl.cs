@@ -1,4 +1,5 @@
 ﻿using Dramatiker.Library;
+using Dramatiker.Library.Lights;
 using System;
 using System.IO;
 using System.Linq;
@@ -121,7 +122,7 @@ namespace Dramatiker.SetCreator
         {
 			Project.Set.Restart();
 			PlaybackForm playbackForm = new PlaybackForm(Project.Set);
-			playbackForm.ShowDialog();
+			playbackForm.Show();
         }
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
