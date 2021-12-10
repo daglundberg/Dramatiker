@@ -19,7 +19,7 @@ namespace Dramatiker.Library
 			var c = base.GetColor(delta);
 			if (Opacity == 1)
 			{
-				if (rand.Next(0, 100) > 97)
+				if (rand.Next(0, 100) > 89)
 					flashPos = 1;
 
 				if (flashPos > 0)

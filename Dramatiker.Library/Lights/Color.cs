@@ -31,7 +31,7 @@
 		public static Color Green		{ get => new Color(000,	255, 000); }
 		public static Color Black		{ get => new Color(000,	000, 000); }
 		public static Color White		{ get => new Color(255,	255, 255); }
-		public static Color WarmWhite	{ get => new Color(150,	140, 130); }
+		public static Color WarmWhite	{ get => new Color(140,	130, 120); }
 		public static Color PinkWhite	{ get => new Color(150,	090, 140); }
 		public static Color Pink		{ get => new Color(150,	000, 140); }
 		public static Color Yellow		{ get => new Color(200,	190, 000); }

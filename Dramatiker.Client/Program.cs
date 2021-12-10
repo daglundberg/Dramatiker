@@ -40,53 +40,60 @@ namespace Dramatiker.Client
 			var havet4 = new AudioItem(location, "Havet 4.mp3", false);
 			var havet5 = new AudioItem(location, "Havet 5.mp3", false);
 			var havet6 = new AudioItem(location, "Havet 6.mp3", false);
-			Fixture light1 = new Fixture() { FirstChannel = 0, Name = "Light 1" };
+			Fixture light1 = new Fixture() { FirstChannel = 0, Name = "Hav 1" };
+			Fixture light5 = new Fixture() { FirstChannel = 16, Name = "Hav 2" };
+
 			Fixture light2 = new Fixture() { FirstChannel = 4, Name = "Light 2" };
 			Fixture middle = new Fixture() { FirstChannel = 8, Name = "Light 3" };
 			Fixture light4 = new Fixture() { FirstChannel = 12, Name = "Light 4" };
-			Fixture light5 = new Fixture() { FirstChannel = 16, Name = "Light 5" };
+			Fixture light6 = new Fixture() { FirstChannel = 20, Name = "Light 6" };
 
 			set.Cues.AddRange(new Cue[]
 			{
-				new Cue("Cue 0 - Pre show", new IEvent[]
+				new Cue("Cue 1 - Pre show", new IEvent[]
 				{
 					new SolidRegion(light1, Color.Blue, 5),
-					new SolidRegion(light2, Color.Black, 5),
-					new SolidRegion(middle, Color.Black, 5),
-					new SolidRegion(light4, Color.Black, 5),
+					new SolidRegion(light2, Color.Blue, 5),
+					new SolidRegion(middle, Color.Blue, 5),
+					new SolidRegion(light4, Color.Blue, 5),
 					new SolidRegion(light5, Color.Blue, 5),
+					new SolidRegion(light6, Color.Blue, 5),
 				}),
 
-				new Cue("Cue 1 - Uwe", new IEvent[]
+				new Cue("Cue 2 - Uwe", new IEvent[]
 				{
 					new SolidRegion(light1, Color.WarmWhite, 5),
 					new SolidRegion(light2, Color.WarmWhite, 5),
 					new SolidRegion(middle, Color.Yellow, 5),
 					new SolidRegion(light4, Color.WarmWhite, 5),
 					new SolidRegion(light5, Color.WarmWhite, 5),
+					new SolidRegion(light6, Color.Yellow, 5),
+
 				}),
 
-				new Cue("Cue 2 - Fiska", new IEvent[]
+				new Cue("Cue 3 - Fiska", new IEvent[]
 				{
 					new SolidRegion(light1, Color.Black, 5),
 					new SolidRegion(light2, Color.PinkWhite, 5),
 					new SolidRegion(middle, Color.Black, 5),
 					new SolidRegion(light4, Color.Yellow, 5),
 					new SolidRegion(light5, Color.Black, 5),
+					new SolidRegion(light6, Color.Black, 5),
+
 				}),
 
-				new Cue("Cue 3 - Hav", new IEvent[]
+				new Cue("Cue 4 - Hav", new IEvent[]
 				{
 					new FadeInEvent(havet1, 500),
 
 					new SolidRegion(light1, Color.Blue, 5),
 					new SolidRegion(light2, Color.Pink, 5),
 					//new SolidRegion(middle, Color.Black, 5),
-					new SolidRegion(light4, Color.Black, 5),
-					//new SolidRegion(light5, Color.Black, 5),
+					new SolidRegion(light4, Color.Pink, 5),
+					new SolidRegion(light5, Color.Blue, 5),
 				}),
 
-				new Cue("Cue 4 - Fiska 2", new IEvent[]
+				new Cue("Cue 5 - Fiska 2", new IEvent[]
 				{
 					new FadeOutEvent(havet1, 10000),
 
@@ -94,21 +101,21 @@ namespace Dramatiker.Client
 					new SolidRegion(light2, Color.PinkWhite, 5),
 					//new SolidRegion(middle, Color.Black, 5),
 					new SolidRegion(light4, Color.Yellow, 5),
-					//new SolidRegion(light5, Color.Black, 5),
+					new SolidRegion(light5, Color.Black, 5),
 				}),
 
-				new Cue("Cue 3B - Hav", new IEvent[]
+				new Cue("Cue 6 - Hav (Tvattmaskin)", new IEvent[]
 				{
 					new FadeInEvent(havet2, 500),
 
 					new SolidRegion(light1, Color.Blue, 5),
 					new SolidRegion(light2, Color.Pink, 5),
 					//new SolidRegion(middle, Color.Black, 5),
-					new SolidRegion(light4, Color.Black, 5),
-					//new SolidRegion(light5, Color.Black, 5),
+					new SolidRegion(light4, Color.Pink, 5),
+					new SolidRegion(light5, Color.Blue, 5),
 				}),
 
-				new Cue("Cue 4B", new IEvent[]
+				new Cue("Cue 7 - Tvattmaskin", new IEvent[]
 				{
 					new FadeOutEvent(havet2, 10000),
 
@@ -119,7 +126,7 @@ namespace Dramatiker.Client
 					//new SolidRegion(light5, Color.Black, 5),
 				}),
 
-				new Cue("Cue 5 - Hav 2", new IEvent[]
+				new Cue("Cue 8 - Hav (Huset)", new IEvent[]
 				{
 					new FadeInEvent(havet3, 5000),
 
@@ -130,7 +137,7 @@ namespace Dramatiker.Client
 					new SolidRegion(light5, Color.Blue, 5),
 				}),
 
-				new Cue("Cue 6 - Grasklipp", new IEvent[]
+				new Cue("Cue 9 - Grasklipp", new IEvent[]
 				{
 					new FadeOutEvent(havet3, 10000),
 
@@ -141,27 +148,18 @@ namespace Dramatiker.Client
 					new SolidRegion(light5, Color.Black, 5),
 				}),
 
-				new Cue("Cue 7 - Lilla Gumman", new IEvent[]
+				new Cue("Cue 10 - Hav (Lilla Gumman)", new IEvent[]
 				{
 					new FadeInEvent(havet4, 5000),
 
 					new SolidRegion(light1, Color.BlueWhite, 5),
 					new SolidRegion(light2, Color.WarmWhite, 5),
 					//new SolidRegion(middle, Color.Black, 5),
-					new SolidRegion(light4, Color.Red, 5),
-					//new SolidRegion(light5, Color.Black, 5),
+					new PulsingRegion(light4, Color.Red, Color.Turquise, 5, 1.0f),
+					new PulsingRegion(light5, Color.Blue, Color.Green, 5, 2.2f),
 				}),
 
-				new Cue("Cue 8 - Hav/Herrgard", new IEvent[]
-				{
-					new SolidRegion(light1, Color.Black, 5),
-					new PulsingRegion(light2, Color.Blue, Color.Green, 5, 1.5f),
-					new SolidRegion(middle, Color.Turquise, 5),
-					new SolidRegion(light4, Color.Pink, 5),
-					//new SolidRegion(light5, Color.Black, 5),
-				}),
-
-				new Cue("Cue 9 - Grevinnan", new IEvent[]
+				new Cue("Cue 11 - Grevinnan", new IEvent[]
 				{
 					new FadeOutEvent(havet4, 10000),
 
@@ -169,10 +167,10 @@ namespace Dramatiker.Client
 					new SolidRegion(light2, Color.WarmWhite, 5),
 					new SolidRegion(middle, Color.Yellow, 5),
 					new SolidRegion(light4, Color.PinkWhite, 5),
-					//new SolidRegion(light5, Color.Black, 5),
+					new SolidRegion(light5, Color.Black, 5),
 				}),
 
-				new Cue("Cue 10 - Drottn. Hav", new IEvent[]
+				new Cue("Cue 12 - Hav (Drottning)", new IEvent[]
 				{
 					new FadeInEvent(havet5, 5000),
 
@@ -183,29 +181,31 @@ namespace Dramatiker.Client
 					new PulsingRegion(light5, Color.Blue, Color.Green, 5, 2.2f),
 				}),
 
-				new Cue("Cue 11 - Drottn. Hav", new IEvent[]
+				new Cue("Cue 13 - Drottning", new IEvent[]
 				{
 					new FadeOutEvent(havet5, 10000),
 
 					new SolidRegion(light1, Color.Black, 5),
 					//new SolidRegion(light2, Color.Black, 5),
-					new SolidRegion(middle, Color.OrangeWhite, 5),
+					new SolidRegion(middle, Color.White, 5),
 					new SolidRegion(light4, Color.Yellow, 5),
 					new SolidRegion(light5, Color.Black, 5),
+					new SolidRegion(light6, Color.Yellow, 5),
 				}),
 
-				new Cue("Cue 12 - Storm!", new IEvent[]
+				new Cue("Cue 14 - Storm!", new IEvent[]
 				{
 					new FadeInEvent(havet6, 5000),
 
 					new ThunderRegion(light1, 8),
-					//new SolidRegion(light2, Color.Black, 5),
-					new SolidRegion(middle, Color.Black, 5),
-					new SolidRegion(light4, Color.Black, 5),
-					new PulsingRegion(light5, new Color(0,0,110), new Color(0,40,20), 5, 2.2f),
+					new PulsingRegion(light2, Color.Red, Color.Black, 5, .15f),
+					new PulsingRegion(middle, new Color(0,0,110), new Color(0,40,20), 5, 2.2f),
+					new PulsingRegion(light4, Color.Black, Color.Blue, 5, .08f),
+					new ThunderRegion(light5, 8),
+					new ThunderRegion(light6, 8),
 				}),
 
-				new Cue("Cue 13", new IEvent[]
+				new Cue("Cue 15", new IEvent[]
 				{
 					new FadeOutEvent(havet6, 10000),
 
@@ -214,9 +214,10 @@ namespace Dramatiker.Client
 					new SolidRegion(middle, Color.Black, 5),
 					new SolidRegion(light4, Color.Yellow, 5),
 					new SolidRegion(light5, Color.Black, 5),
+					new SolidRegion(light6, Color.Black, 5),
 				}),
 
-				new Cue("Cue 14", new IEvent[]
+				new Cue("Cue 16", new IEvent[]
 				{
 					new SolidRegion(light1, Color.WarmWhite, 5),
 					new SolidRegion(light2, Color.WarmWhite, 5),
@@ -225,7 +226,7 @@ namespace Dramatiker.Client
 					new SolidRegion(light5, Color.WarmWhite, 5),
 				}),
 
-				new Cue("Cue 15 - Karlek", new IEvent[]
+				new Cue("Cue 17 - Karlek", new IEvent[]
 				{
 					new SolidRegion(light1, Color.Black, 5),
 					new SolidRegion(light2, Color.Yellow, 5),
@@ -234,23 +235,32 @@ namespace Dramatiker.Client
 					new SolidRegion(light5, Color.Black, 5),
 				}),
 
-				new Cue("Cue 16 - Black", new IEvent[]
+				new Cue("Cue 18 - Applader", new IEvent[]
+				{
+					new SolidRegion(light1, Color.WarmWhite, 5),
+					new SolidRegion(light2, Color.WarmWhite, 5),
+					new SolidRegion(middle, Color.WarmWhite, 5),
+					new SolidRegion(light4, Color.WarmWhite, 5),
+					new SolidRegion(light5, Color.WarmWhite, 5),
+					new SolidRegion(light6, Color.WarmWhite, 5),
+				}),
+
+				new Cue("Cue 19 - Black out", new IEvent[]
 				{
 					new SolidRegion(light1, Color.Black, 5),
 					new SolidRegion(light2, Color.Black, 5),
 					new SolidRegion(middle, Color.Black, 5),
 					new SolidRegion(light4, Color.Black, 5),
 					new SolidRegion(light5, Color.Black, 5),
+					new SolidRegion(light6, Color.Black, 5),
 				}),
 			}) ;
-
-
 
 			using var waiter = new Waiter();
 
 			using var audioPlayer = new AudioPlayer();
 			audioPlayer.PlayStartUpSound();
-			var lights = new Fixture[] { light1, light2 };
+			var lights = new Fixture[] { light1, light2, middle, light4, light5, light6 };
 
 			string portName;
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -258,7 +268,7 @@ namespace Dramatiker.Client
 			else
 				portName = "/dev/ttyUSB0";
 
-			using var lightPlayer = new LightPlayer(lights, new EntecUsbPro(portName, (lights.Length * 4 > 24) ? lights.Length * 4 : 24));
+			using var lightPlayer = new LightPlayer(lights, new EntecUsbPro(portName, 512));
 
 			while (set.IsCompleted == false)
 			{

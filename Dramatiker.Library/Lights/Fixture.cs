@@ -30,10 +30,18 @@ namespace Dramatiker.Library.Lights
 		public Color GetColor(float delta)
 		{
 			Color output = default;
-			foreach (var region in _lightRegions)
+			try
 			{
-				var col = region.GetColor(delta);
-				output = Color.Lerp(output, col, (float)col.A / 255f);
+
+				foreach (var region in _lightRegions)
+				{
+					var col = region.GetColor(delta);//TODO: Collection changed exeption was thrown here!!!
+					output = Color.Lerp(output, col, (float)col.A / 255f);
+				}
+			}
+			catch
+			{
+				System.Console.WriteLine("COLLECTION CHANGED!");
 			}
 			return output;
 		}
