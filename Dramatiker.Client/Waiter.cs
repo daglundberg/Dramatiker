@@ -33,6 +33,17 @@ namespace Dramatiker.Client
 				}
 			}
 
+			public Waiter(InputType inputType)
+			{
+				_type = inputType;
+
+				if (_type == InputType.GPIO)
+				{
+					_controller = new GpioController();
+					_controller.OpenPin(pin, PinMode.Input);
+				}
+			}
+
 			public void Wait()
 			{
 				if (_type == InputType.GPIO)

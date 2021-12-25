@@ -256,7 +256,7 @@ namespace Dramatiker.Client
 				}),
 			}) ;
 
-			using var waiter = new Waiter();
+			using var waiter = new Waiter(Waiter.InputType.Keyboard);
 
 			using var audioPlayer = new AudioPlayer();
 			audioPlayer.PlayStartUpSound();
@@ -266,7 +266,7 @@ namespace Dramatiker.Client
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 				portName = "COM3";
 			else
-				portName = "/dev/ttyUSB0";
+				portName = "/dev/ttyS0";
 
 			using var lightPlayer = new LightPlayer(lights, new EntecUsbPro(portName, 512));
 
