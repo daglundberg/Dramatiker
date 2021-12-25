@@ -26,7 +26,7 @@ namespace Dramatiker.Library.Lights.Backends
 		/// <param name="dmxSize">Number of channels from 24 to 512.</param>
 		/// <param name="baudrate">Baudrate for serial connection.</param>
 		/// <param name="timeout">Serial connection timeout.</param>
-		public DiscoHat(string port, int dmxSize = 512, int baudrate = 9600, int timeout = 1000)
+		public DiscoHat(string port, int dmxSize = 512)
 		{
 /*			String[] PortNames = SerialPort.GetPortNames();
 
@@ -38,8 +38,8 @@ namespace Dramatiker.Library.Lights.Backends
 
 			Port = port;
 			DmxSize = dmxSize;
-			Baudrate = baudrate;
-			Timeout = timeout;
+			Baudrate = 9600;
+			Timeout = 1000;
 
 			if (DmxSize > 512 || DmxSize < 24)
 			{
@@ -48,12 +48,14 @@ namespace Dramatiker.Library.Lights.Backends
 			}
 
 			// Create a new SerialPort object with default settings.
-			_serialPort = new SerialPort(port, baudrate, Parity.None, 8, StopBits.One);
+			_serialPort = new SerialPort(port, 9600);
 			_serialPort.Handshake = Handshake.None;
-
+			_serialPort.Parity = Parity.None;
+			_serialPort.StopBits = StopBits.One;
+			
 			// Set the read/write timeouts
-			_serialPort.ReadTimeout = timeout;
-			_serialPort.WriteTimeout = timeout;
+			_serialPort.ReadTimeout = Timeout;
+			_serialPort.WriteTimeout = Timeout;
 
 			try
 			{
@@ -125,7 +127,10 @@ namespace Dramatiker.Library.Lights.Backends
 		public void Flush()
 		{
 			if (_serialPort.IsOpen)
+			{
+				Console.WriteLine("Flushing");
 				_serialPort.Write(Message, 0, Message.Length);
+			}
 		}
 	}
 }
