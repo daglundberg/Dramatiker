@@ -26,7 +26,7 @@ namespace Dramatiker.Library.Lights.Backends
 		/// <param name="dmxSize">Number of channels from 24 to 512.</param>
 		/// <param name="baudrate">Baudrate for serial connection.</param>
 		/// <param name="timeout">Serial connection timeout.</param>
-		public DiscoHat(string port, int dmxSize = 512)
+		public DiscoHat(string port, int dmxSize = 24)
 		{
 /*			String[] PortNames = SerialPort.GetPortNames();
 
