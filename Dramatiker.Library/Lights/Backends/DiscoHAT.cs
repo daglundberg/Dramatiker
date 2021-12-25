@@ -1,6 +1,7 @@
 ﻿using Dramatiker.Library.Lights;
 using System;
-using System.IO.Ports;
+//using System.IO.Ports;
+using RJCP.IO.Ports;
 
 namespace Dramatiker.Library.Lights.Backends
 {
@@ -15,7 +16,8 @@ namespace Dramatiker.Library.Lights.Backends
 		const byte SignalStart = 0x7E;
 		const byte SignalEnd = 0xE7;
 
-		static SerialPort _serialPort;
+		//static SerialPort _serialPort;
+		static SerialPortStream _serialPort;
 
 		/// <summary>Instantiate Controller.</summary>
 		/// <param name="port">COM port to use for communication.</param>
@@ -34,7 +36,8 @@ namespace Dramatiker.Library.Lights.Backends
 			}
 
 			// Create a new SerialPort object with default settings.
-			_serialPort = new SerialPort(port, Baudrate);
+			//_serialPort = new SerialPort(port, Baudrate);
+			_serialPort = new SerialPortStream(port, Baudrate);
 			_serialPort.Handshake = Handshake.None;
 			_serialPort.Parity = Parity.None;
 			_serialPort.StopBits = StopBits.One;
