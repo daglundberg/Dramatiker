@@ -26,7 +26,7 @@ namespace Dramatiker.Library.Lights.Backends
 		/// <param name="dmxSize">Number of channels from 24 to 512.</param>
 		/// <param name="baudrate">Baudrate for serial connection.</param>
 		/// <param name="timeout">Serial connection timeout.</param>
-		public DiscoHat(string port, int dmxSize = 512, int baudrate = 57600, int timeout = 1000)
+		public DiscoHat(string port, int dmxSize = 512, int baudrate = 9600, int timeout = 1000)
 		{
 /*			String[] PortNames = SerialPort.GetPortNames();
 
@@ -48,7 +48,7 @@ namespace Dramatiker.Library.Lights.Backends
 			}
 
 			// Create a new SerialPort object with default settings.
-			_serialPort = new SerialPort(port, baudrate);
+			_serialPort = new SerialPort(port, baudrate, Parity.None, 8, StopBits.One);
 			_serialPort.Handshake = Handshake.None;
 
 			// Set the read/write timeouts
