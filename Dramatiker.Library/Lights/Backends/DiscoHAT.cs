@@ -25,7 +25,7 @@ namespace Dramatiker.Library.Lights.Backends
 		{
 			Port = port;
 			DmxSize = dmxSize;
-			Baudrate = 250000;
+			Baudrate = 500000;
 			Timeout = 1000;
 
 			if (DmxSize > 512 || DmxSize < 24)
