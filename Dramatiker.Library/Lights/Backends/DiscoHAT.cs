@@ -114,7 +114,6 @@ namespace Dramatiker.Library.Lights.Backends
 		{
 			if (_serialPort.IsOpen)
 			{
-				Console.WriteLine("Flushing");
 				_serialPort.Write(Message, 0, Message.Length);
 			}
 		}
