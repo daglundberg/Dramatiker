@@ -272,6 +272,7 @@ namespace Dramatiker.Client
 
 			while (set.IsCompleted == false)
 			{
+
 				waiter.Wait();
 				Console.WriteLine($"=======CUE {set.CurrentIndex}========");
 				set.TriggerNext(audioPlayer, lightPlayer);
