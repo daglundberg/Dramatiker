@@ -4,10 +4,6 @@ using System.IO.Ports;
 
 namespace Dramatiker.Library.Lights.Backends
 {
-	/// <summary>
-	/// Controller maintains a state and interface for interacting with the Enttec
-	/// DMX USB Pro.
-	/// </summary>
 	public class DiscoHat : IDmxBackend
 	{
 		public string Port { get; private set; }
@@ -24,21 +20,11 @@ namespace Dramatiker.Library.Lights.Backends
 		/// <summary>Instantiate Controller.</summary>
 		/// <param name="port">COM port to use for communication.</param>
 		/// <param name="dmxSize">Number of channels from 24 to 512.</param>
-		/// <param name="baudrate">Baudrate for serial connection.</param>
-		/// <param name="timeout">Serial connection timeout.</param>
 		public DiscoHat(string port, int dmxSize = 24)
 		{
-/*			String[] PortNames = SerialPort.GetPortNames();
-
-			Console.WriteLine("Available Ports:");
-			foreach (string s in PortNames)
-			{
-				Console.WriteLine("   {0}", s);
-			}*/
-
 			Port = port;
 			DmxSize = dmxSize;
-			Baudrate = 9600;
+			Baudrate = 16000000;
 			Timeout = 1000;
 
 			if (DmxSize > 512 || DmxSize < 24)
@@ -48,7 +34,7 @@ namespace Dramatiker.Library.Lights.Backends
 			}
 
 			// Create a new SerialPort object with default settings.
-			_serialPort = new SerialPort(port, 9600);
+			_serialPort = new SerialPort(port, Baudrate);
 			_serialPort.Handshake = Handshake.None;
 			_serialPort.Parity = Parity.None;
 			_serialPort.StopBits = StopBits.One;
@@ -63,7 +49,7 @@ namespace Dramatiker.Library.Lights.Backends
 			}
 			catch (System.IO.FileNotFoundException e)
 			{
-				Console.WriteLine("Could not connect to the Enttec DMX USB Pro.");
+				Console.WriteLine("Could not connect to the serial port.");
 				Console.WriteLine(e.Message);
 			}
 
