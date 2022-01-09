@@ -44,6 +44,8 @@ namespace Dramatiker.Client
 				{
 					_controller = new GpioController();
 					_controller.OpenPin(_inputPin, PinMode.Input);
+					_controller.OpenPin(_ledPin, PinMode.Output);
+
 				}
 			}
 
