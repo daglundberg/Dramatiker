@@ -256,7 +256,7 @@ namespace Dramatiker.Client
 				}),
 			}) ;
 
-			using var waiter = new Waiter(Waiter.InputType.Keyboard);
+			using var waiter = new Waiter(Waiter.InputType.GPIO);
 
 			using var audioPlayer = new AudioPlayer();
 			audioPlayer.PlayStartUpSound();

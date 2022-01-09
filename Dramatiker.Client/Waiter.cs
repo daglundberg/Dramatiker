@@ -16,7 +16,8 @@ namespace Dramatiker.Client
 			}
 
 			GpioController _controller;
-			int pin = 26;
+			int _inputPin = 26;
+			int _ledPin = 13;
 
 			private InputType _type;
 
@@ -30,7 +31,8 @@ namespace Dramatiker.Client
 				{
 					_type = InputType.GPIO;
 					_controller = new GpioController();
-					_controller.OpenPin(pin, PinMode.Input);
+					_controller.OpenPin(_inputPin, PinMode.Input);
+					_controller.OpenPin(_ledPin, PinMode.Output);
 				}
 			}
 
@@ -41,7 +43,7 @@ namespace Dramatiker.Client
 				if (_type == InputType.GPIO)
 				{
 					_controller = new GpioController();
-					_controller.OpenPin(pin, PinMode.Input);
+					_controller.OpenPin(_inputPin, PinMode.Input);
 				}
 			}
 
@@ -53,10 +55,11 @@ namespace Dramatiker.Client
 					//_controller.WaitForEvent(pin, PinEventTypes.Falling, new TimeSpan(24,0,0));
 					
 					int count = 0;
+					_controller.Write(_ledPin, PinValue.Low);
 
-					while (count < 7)
+					while (count < 10)
 					{
-						var val = _controller.Read(pin);
+						var val = _controller.Read(_inputPin);
 
 						if (val == PinValue.High)
 						{
@@ -68,6 +71,8 @@ namespace Dramatiker.Client
 							Thread.Sleep(30);
 						}
 					}
+					_controller.Write(_ledPin, PinValue.High);
+					
 				}
 				else if (_type == InputType.Keyboard)
 				{
@@ -78,7 +83,8 @@ namespace Dramatiker.Client
 
 			public void Dispose()
 			{
-				_controller?.ClosePin(pin);
+				_controller?.ClosePin(_inputPin);
+				_controller?.ClosePin(_ledPin);
 				_controller?.Dispose();
 			}
 		}
