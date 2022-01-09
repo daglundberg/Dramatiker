@@ -266,9 +266,9 @@ namespace Dramatiker.Client
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 				portName = "COM3";
 			else
-				portName = "/dev/ttyS0";
+				portName = "/dev/ttyUSB0";
 
-			using var lightPlayer = new LightPlayer(lights, new DiscoHat(portName, 512));
+			using var lightPlayer = new LightPlayer(lights, new EntecUsbPro(portName, 512));
 
 			while (set.IsCompleted == false)
 			{

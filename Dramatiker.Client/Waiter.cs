@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Device.Gpio;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace Dramatiker.Client
 {
@@ -49,7 +50,24 @@ namespace Dramatiker.Client
 				if (_type == InputType.GPIO)
 				{
 					Console.WriteLine($"Press pedal to move forward in the set...");
-					_controller.WaitForEvent(pin, PinEventTypes.Falling, new TimeSpan(24,0,0));
+					//_controller.WaitForEvent(pin, PinEventTypes.Falling, new TimeSpan(24,0,0));
+					
+					int count = 0;
+
+					while (count < 7)
+					{
+						var val = _controller.Read(pin);
+
+						if (val == PinValue.High)
+						{
+							count = 0;
+						}
+						else if (val == PinValue.Low)
+						{
+							count++;
+							Thread.Sleep(30);
+						}
+					}
 				}
 				else if (_type == InputType.Keyboard)
 				{
