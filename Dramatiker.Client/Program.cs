@@ -12,7 +12,7 @@ namespace Dramatiker.Client
 	{
 		static void Main()
 		{
-			Console.WriteLine("Welcome to Dramatiker! Written by Dag Lundberg (c) 2021");
+			Console.WriteLine("Welcome to Dramatiker! Written by Dag Lundberg (c) 2022");
 
 			/*			Set set = new Set();
 
