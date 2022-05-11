@@ -1,53 +1,61 @@
-﻿using Dramatiker.Library.Lights.Backends;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Linq;
 using System.Threading;
+using Dramatiker.Library.Lights.Backends;
 
-namespace Dramatiker.Library.Lights
+namespace Dramatiker.Library.Lights;
+
+public class LightPlayer : IDisposable
 {
-	public class LightPlayer : IDisposable
+	private readonly IDmxBackend _dmxBackend;
+	private readonly Thread _thread;
+	private bool CONTINUE = true;
+	public bool SHOULDCHECK = false;
+	public Fixture[] Lights;
+
+	public LightPlayer(IEnumerable<Fixture> lights, IDmxBackend dmxBackend)
 	{
-		IDmxBackend _dmxBackend;
-		public Fixture[] Lights;
-		Thread _thread;
-		bool CONTINUE = true;
+		Lights = lights.ToArray();
 
-		public LightPlayer(Fixture[] lights, IDmxBackend dmxBackend)
+		_dmxBackend = dmxBackend;
+
+		_thread = new Thread(() => RunLights(Lights, _dmxBackend, ref CONTINUE, ref SHOULDCHECK));
+		_thread.Start();
+	}
+
+	public void Dispose()
+	{
+		CONTINUE = false;
+		_thread.Join();
+		_dmxBackend.ClearChannels();
+		_dmxBackend.Flush();
+		_dmxBackend.Close();
+	}
+
+	public void Flush()
+	{
+		_dmxBackend.Flush();
+	}
+
+	public static void RunLights(IEnumerable<Fixture> lights, IDmxBackend lightController, ref bool shouldContinue, ref bool shouldCheck)
+	{
+		while (shouldContinue)
 		{
-			Lights = lights;
+			Thread.Sleep(25);
 
-			_dmxBackend = dmxBackend;
-
-			_thread = new Thread(() => RunLights(Lights, _dmxBackend, ref CONTINUE));
-			_thread.Start();
-		}
-
-		public void Flush()
-		{
-			_dmxBackend.Flush();
-		}
-
-		public static void RunLights(IEnumerable<Fixture> lights, IDmxBackend lightController, ref bool shouldContinue)
-		{
-			while (shouldContinue)
+			if (shouldCheck)
 			{
-				Thread.Sleep(50);
-				foreach (Fixture light in lights)
-				{
-					lightController.SetColor(light, light.GetColor(0.1f));
-				}
-				lightController.Flush();
-			}
-		}
+				Console.WriteLine("Checking for removes");
 
-		public void Dispose()
-		{
-			CONTINUE = false;
-			_thread.Join();		
-			_dmxBackend.ClearChannels();
-			_dmxBackend.Flush();
-			_dmxBackend.Close();
+				foreach (var light in lights)
+					light.CleanFlaggedRegions();
+				shouldCheck = false;
+			}
+			
+			foreach (var light in lights)
+				lightController.SetColor(light, light.GetColor(0.1f));
+			lightController.Flush();
 		}
 	}
 }

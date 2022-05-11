@@ -1,76 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Dramatiker.Library
+namespace Dramatiker.Library;
+
+public class Cue : ISerializable
 {
-	public class Cue : ISerial
+	private readonly List<IEvent> _events;
+
+	public Cue(string name = "Nameless Cue")
 	{
-		public string Name { get; set; }
-		private List<IEvent> _events;
+		_events = new List<IEvent>();
+		Name = name;
+	}
 
-		public Cue(string name = "Nameless Cue")
-		{
-			_events = new();
-			Name = name;
-		}
+	public Cue(string name, IEvent[] events)
+	{
+		_events = new List<IEvent>(events);
+		Name = name;
+	}
 
-		public Cue(string name, IEvent[] events)
-		{
-			_events = new(events);
-			Name = name;
-		}
+	public Cue(IEvent[] events)
+	{
+		_events = new List<IEvent>(events);
+		Name = "Nameless Cue";
+	}
 
-		public Cue(IEvent[] events)
-		{
-			_events = new(events);
-			Name = "Nameless Cue";
-		}
+	public string Name { get; set; }
 
-		public IEnumerable<IEvent> Events
-		{
-			get
-			{
-				return _events;
-			}
-		}
+	public IEnumerable<IEvent> Events => _events;
 
-		public void AddEvent(IEvent e)
-		{
-			_events.Add(e);
-		}
+	public void Deserialize(string[] data, Set set)
+	{
+		Name = data[1];
+	}
 
-		public void LoadFromText(string[] data, List<AudioItem> audioItems)
-		{
-			throw new NotImplementedException();
-		}
+	public string Serialize()
+	{
+		return Serializer.Serialize(this,
+			Name);
+	}
 
-		public string TextFromObject()
-		{
-			throw new NotImplementedException();
-		}
+	public void AddEvent(IEvent e)
+	{
+		_events.Add(e);
+	}
 
-		public string GetDescription()
-		{
-			var stringBuilder = new StringBuilder();
-
-			foreach (var e in Events)
-			{
-				stringBuilder.Append(e.GetDescription());
-			}
-			return stringBuilder.ToString();
-		}
-
-		public string GetTitle()
-		{
-			return Name;
-		}
-
-		public override string ToString()
-		{
-			return $"{GetTitle()}\n{GetDescription()}";
-		}
+	public override string ToString()
+	{
+		return Name;
 	}
 }

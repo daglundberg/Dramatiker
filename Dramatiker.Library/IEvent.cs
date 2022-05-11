@@ -1,24 +1,5 @@
-﻿using Dramatiker.Library.Lights;
+﻿namespace Dramatiker.Library;
 
-namespace Dramatiker.Library
+public interface IEvent : ISerializable
 {
-	public interface IEvent : ISerial
-	{
-		string GetTitle();
-		string GetDescription();
-	}
-
-	public interface IAudioEvent : IEvent
-	{
-		void ApplyAudio(AudioPlayer audioPlayer);
-	}
-
-	public interface ILightRegion : IEvent
-	{
-		Color GetColor(float delta);
-
-		float Opacity { get; }
-
-		void ApplyLight(LightPlayer lightPlayer);
-	}
 }

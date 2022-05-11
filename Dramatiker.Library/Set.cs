@@ -1,140 +1,99 @@
-﻿using Dramatiker.Library.Lights;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using Dramatiker.Library.Lights;
 
-namespace Dramatiker.Library
+namespace Dramatiker.Library;
+
+public class Set
 {
-	public class Set
+	private List<Cue> _cues;
+
+	public Set()
 	{
-		public List<AudioItem> AudioItems { get; set; }
-		public List<IAudioEvent> Events { get; set; }
-		public List<Cue> Cues { get; set; }
-		public List<Fixture> Fixtures { get; set; }
-		public int CurrentIndex { get; private set; }
+		Events = new Register<IEvent>();
+		AudioItems = new Register<AudioItem>();
+		Cues = new Register<Cue>();
+		Fixtures = new Register<Fixture>();
 
-		public Set()
+		Events.ItemAdded += OnItemAdded;
+		AudioItems.ItemAdded += OnItemAdded;
+		Cues.ItemAdded += OnItemAdded;
+	}
+
+	public Register<AudioItem> AudioItems { get; }
+	public Register<IEvent> Events { get; }
+	public Register<Cue> Cues { get; }
+	public Register<Fixture> Fixtures { get; }
+	public int CurrentIndex { get; private set; } = 0;
+
+	public bool IsCompleted => CurrentIndex >= Cues.Count;
+
+	private void OnItemAdded(object? sender, ItemAddedEventArgs e)
+	{
+		switch (e.Item)
 		{
-			CurrentIndex = 0;
-			Events = new List<IAudioEvent>();
-			AudioItems = new List<AudioItem>();
-			Cues = new List<Cue>();
-			Fixtures = new List<Fixture>();
-		}
+			case Cue cue:
+				foreach (var ievent in cue.Events)
+					Events.Add(ievent);
+				break;
 
-		public void LoadFromFile(string pathToSetFile)
+			case IAudioEvent fie:
+				AudioItems.Add(fie.AudioItem);
+				break;
+
+			case ILightEvent sr:
+				Fixtures.Add(sr.Fixture);
+				break;
+		}
+	}
+
+
+	public void TriggerNext(AudioPlayer audioPlayer, LightPlayer lightPlayer)
+	{
+		Console.WriteLine($@"{CurrentIndex + 1}: {Cues[CurrentIndex]} ({CurrentIndex + 1}/{Cues.Count})");
+
+		foreach (var e in Cues[CurrentIndex].Events)
 		{
-			var locationObject = new LocationObject(Path.GetDirectoryName(pathToSetFile));
+			if (e is IAudioEvent)
+				((IAudioEvent) e).ApplyAudio(audioPlayer);
 
-			using StreamReader streamReader = new StreamReader(pathToSetFile);
-			while (streamReader.EndOfStream == false)
-			{
-				var line = streamReader.ReadLine().Split(',');
-				switch (line[0])
-				{
-					case "AudioItem":
-						var ai = new AudioItem(locationObject);
-						ai.LoadFromText(line, AudioItems);
-						AudioItems.Add(ai);
-						break;
-					case "FadeInEvent":
-						var fie = new FadeInEvent();
-						fie.LoadFromText(line, AudioItems);
-						Events.Add(fie);
-						break;
-					case "FadeOutEvent":
-						var foe = new FadeOutEvent();
-						foe.LoadFromText(line, AudioItems);
-						Events.Add(foe);
-						break;
-					case "Cue":
-						var cue = new Cue();
-						cue.LoadFromText(line, AudioItems);
-						Cues.Add(cue);
-						break;
-				}
-			}
-
-			CurrentIndex = 0;
+			if (e is ILightEvent)
+				((ILightEvent) e).ApplyLight(lightPlayer);
 		}
 
-		public void SaveToFile(string pathToSetFile)
-        {
-			using StreamWriter streamWriter = new StreamWriter(pathToSetFile);
+		lightPlayer.Flush();
 
-			foreach (AudioItem audioItem in AudioItems)
-			{
-				streamWriter.WriteLine(audioItem.TextFromObject());
-			}
+		CurrentIndex++;
+	}
 
-			foreach (IAudioEvent e in Events)
-			{
-				streamWriter.WriteLine(e.TextFromObject());
-			}
+	public Cue GetNextCue()
+	{
+		if (CurrentIndex < Cues.Count)
+			return Cues[CurrentIndex];
+		return null;
+	}
 
-			foreach (Cue cue in Cues)
-			{
-				streamWriter.WriteLine(cue.TextFromObject());
-			}
+	public Cue GetPreviousCue()
+	{
+		if (CurrentIndex > 0)
+			return Cues[CurrentIndex - 1];
+		return null;
+	}
 
-			streamWriter.Flush();
-		}
+	public void GoBack()
+	{
+		CurrentIndex--;
+	}
 
-		public void TriggerNext(AudioPlayer audioPlayer, LightPlayer lightPlayer)
-		{
-			Console.WriteLine($"{CurrentIndex + 1} / {Cues.Count}: {Cues[CurrentIndex]}");
+	public void Restart()
+	{
+		CurrentIndex = 0;
+	}
 
-			foreach (IEvent e in Cues[CurrentIndex].Events)
-			{
-				if (e is IAudioEvent)
-					((IAudioEvent)e).ApplyAudio(audioPlayer);
-
-				if (e is ILightRegion)
-					((ILightRegion)e).ApplyLight(lightPlayer);
-			}
-
-			lightPlayer.Flush();
-
-			CurrentIndex++;
-		}
-
-		public Cue GetNextCue()
-        {
-			if (CurrentIndex < Cues.Count)
-				return Cues[CurrentIndex];
-			else
-				return null;
-        }
-
-		public Cue GetPreviousCue()
-        {
-			if (CurrentIndex > 0)
-				return Cues[CurrentIndex - 1];
-			else
-				return null;
-        }
-
-		public void GoBack()
-		{
-			CurrentIndex--;
-		}
-
-		public void Restart()
-        {
-			CurrentIndex = 0;
-        }
-
-		public void GoForward()
-		{
-			CurrentIndex++;
-		}
-
-		public bool IsCompleted
-		{
-			get
-			{
-				return CurrentIndex >= Cues.Count;
-			}
-		}
+	public void GoForward()
+	{
+		CurrentIndex++;
 	}
 }

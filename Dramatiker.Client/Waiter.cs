@@ -23,7 +23,7 @@ namespace Dramatiker.Client
 
 			public Waiter()
 			{
-				if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+				if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 				{
 					_type = InputType.Keyboard;
 				}
@@ -53,6 +53,7 @@ namespace Dramatiker.Client
 			{
 				if (_type == InputType.GPIO)
 				{
+					Thread.Sleep(1000);
 					Console.WriteLine($"Press pedal to move forward in the set...");
 					//_controller.WaitForEvent(pin, PinEventTypes.Falling, new TimeSpan(24,0,0));
 					
@@ -78,7 +79,8 @@ namespace Dramatiker.Client
 				}
 				else if (_type == InputType.Keyboard)
 				{
-					Console.WriteLine($"Press any key to move forward in the set...");
+					Thread.Sleep(50);
+					Console.WriteLine("Press any key to move forward in the set...");
 					Console.ReadKey();
 				}
 			}

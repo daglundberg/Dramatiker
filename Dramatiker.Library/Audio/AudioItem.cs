@@ -1,84 +1,69 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
-namespace Dramatiker.Library
-{
-	public class LocationObject
-	{
-		public LocationObject(string folder)
-		{
-			CurrentLocation = folder;
-		}
+namespace Dramatiker.Library;
 
-		public string CurrentLocation
-		{
-			get; private set;
-		}
+public class AudioItem : IEquatable<AudioItem>, ISerializable
+{
+	private readonly LocationObject _location;
+
+	public AudioItem(LocationObject location, string fileName, bool isLooping, float volume = 1.0f)
+	{
+		FileName = fileName;
+		IsLooping = isLooping;
+		Volume = volume;
+		_location = location;
+
+		if (File.Exists(FullFilePath) == false)
+			Console.WriteLine($"Could not find {FullFilePath}");
 	}
 
-	public class AudioItem : IEquatable<AudioItem>, ISerial
+	public AudioItem(LocationObject location)
 	{
-		public AudioItem(LocationObject location, string fileName, bool isLooping, float volume = 1.0f)
-		{			
-			FileName = fileName;
-			IsLooping = isLooping;
-			Volume = volume;
-			_location = location;
-		}
+		_location = location;
+	}
 
-		public AudioItem(LocationObject location)
-		{
-			_location = location;
-		}
+	public string FileName { get; set; }
 
-		private LocationObject _location;
+	public bool IsLooping { get; set; }
 
-		public string FileName {  get; set; }
+	public float Volume { get; set; }
 
-		public bool IsLooping { get; set; }
+	public string FullFilePath => Path.Combine(_location.CurrentLocation, FileName);
 
-		public float Volume { get; set; }
+	public bool Equals(AudioItem other)
+	{
+		return other != null &&
+		       FileName == other.FileName;
+	}
 
-		public string FullFilePath
-		{
-			get
-			{
-				return Path.Combine(_location.CurrentLocation, FileName);
-			}
-		}
+	public void Deserialize(string[] data, Set set)
+	{
+		FileName = data[1];
+		IsLooping = bool.Parse(data[2]);
+		Volume = float.Parse(data[3]);
+	}
 
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as AudioItem);
-		}
+	public string Serialize()
+	{
+		return Serializer.Serialize(this,
+			FileName,
+			IsLooping,
+			Volume);
+	}
 
-		public bool Equals(AudioItem other)
-        {
-			return other != null &&
-				FileName == other.FileName;
-		}
+	public override bool Equals(object obj)
+	{
+		return Equals(obj as AudioItem);
+	}
 
-		public override int GetHashCode()
-		{
-			return FileName.GetHashCode();
-		}
+	public override int GetHashCode()
+	{
+		return FileName.GetHashCode();
+	}
 
-		public override string ToString()
-		{
-			return FileName;
-		}
-
-		public void LoadFromText(string[] data, List<AudioItem> audioItems)
-		{
-			FileName = data[1];
-			IsLooping = bool.Parse(data[2]);
-			Volume = float.Parse(data[3]);
-		}
-
-		public string TextFromObject()
-		{
-			return $"AudioItem,{FileName},{IsLooping},{Volume}";
-		}
+	public override string ToString()
+	{
+		return FileName;
 	}
 }
