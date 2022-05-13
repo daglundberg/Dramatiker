@@ -38,23 +38,30 @@ public class LightPlayer : IDisposable
 		_dmxBackend.Flush();
 	}
 
-	public static void RunLights(IEnumerable<Fixture> lights, IDmxBackend lightController, ref bool shouldContinue, ref bool shouldCheck)
+	public static void RunLights(Fixture[] fixtures, IDmxBackend lightController, ref bool shouldContinue, ref bool shouldCheck)
 	{
+		const int fps = 40;
+		const int timeStepMs = 1000 / fps;
+		const float timeStepS = timeStepMs / 1000f;
+		
 		while (shouldContinue)
 		{
-			Thread.Sleep(25);
+			Thread.Sleep(timeStepMs);
 
 			if (shouldCheck)
 			{
 				Console.WriteLine("Checking for removes");
-
-				foreach (var light in lights)
-					light.CleanFlaggedRegions();
+			
+				foreach (var fixture in fixtures)
+					fixture.CleanFlaggedRegions();
 				shouldCheck = false;
 			}
-			
-			foreach (var light in lights)
-				lightController.SetColor(light, light.GetColor(0.1f));
+
+			for (int i = 0; i < fixtures.Length; i++)
+			{
+				lightController.SetColor(fixtures[i], fixtures[i].GetColor(timeStepS));
+			}
+
 			lightController.Flush();
 		}
 	}

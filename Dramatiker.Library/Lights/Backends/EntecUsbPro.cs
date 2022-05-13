@@ -124,6 +124,6 @@ public class EntecUsbPro : IDmxBackend
 		Message[2] = (byte) ((DmxSize + 1) & 0xFF);
 		Message[3] = (byte) (((DmxSize + 1) >> 8) & 0xFF);
 		Message[4] = 0;
-		Message[Message.Length - 1] = SignalEnd;
+		Message[^1] = SignalEnd;
 	}
 }

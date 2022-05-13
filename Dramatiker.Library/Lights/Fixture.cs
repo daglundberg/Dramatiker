@@ -41,47 +41,41 @@ public class Fixture : ISerializable
 
 	public void CleanFlaggedRegions()
 	{
-		for (int i = 0; i < _lightRegions.Count; i++)
-		{
-			if (_lightRegions[i].FlaggedForRemoval)
-			{
-				_lightRegions.RemoveAt(i);
-				i--;
-				Console.WriteLine("Removed item");
-			}
-		}
+		// for (int i = 0; i < _lightRegions.Count; i++)
+		// {
+		// 	if (_lightRegions[i].FlaggedForRemoval)
+		// 	{
+		// 		_lightRegions.RemoveAt(i);
+		// 		i--;
+		// 		Console.WriteLine("Removed item");
+		// 	}
+		// }
+	}
+
+	public void Reset()
+	{
+		_lightRegions.Clear();
 	}
 
 	public Color GetColor(float delta)
 	{
 		Color output = default;
-		// try
-		// {
-			/*foreach (var region in _lightRegions)
+		
+		//TODO: Collection changed exeption was thrown here!!!
+		for (int i = 0; i < _lightRegions.Count; i++) 
+		{ 
+			var region = _lightRegions[i];
+			if (region != null)
 			{
-				var col = region.GetColor(delta); //TODO: Collection changed exeption was thrown here!!!
+				var col = region.GetColor(delta);
 				output = Color.Lerp(output, col, col.A / 255f);
-			}*/
-
-			for (int i = 0; i < _lightRegions.Count; i++)
-			{
-				var region = _lightRegions[i];
-				if (region != null)
-				{
-					var col = region.GetColor(delta);
-					output = Color.Lerp(output, col, col.A / 255f);
-				}
-				else
-				{
-					i = -1;
-				}
 			}
-		// }
-		// catch (Exception e)
-		// {
-		// 	Console.WriteLine("FIXTURE ERROR! " + e.Message);
-		// }
-
+			else
+			{
+				Console.WriteLine("NULL!!!");
+			}
+		}
+			
 		return output;
 	}
 }

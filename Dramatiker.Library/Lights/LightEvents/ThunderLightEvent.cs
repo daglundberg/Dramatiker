@@ -22,7 +22,7 @@ public class ThunderLightEvent : PulsingLightEvent
 	public override Color GetColor(float delta)
 	{
 		var c = base.GetColor(delta);
-		if (Opacity == 1)
+		if (Opacity >= 1)
 		{
 			if (rand.Next(0, 100) > 89)
 				flashPos = 1;

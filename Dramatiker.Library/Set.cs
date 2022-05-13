@@ -90,6 +90,16 @@ public class Set
 	public void Restart()
 	{
 		CurrentIndex = 0;
+		foreach (var ievent in Events)
+		{
+			if (ievent is ILightEvent e)
+				e.Reset();
+		}
+
+		foreach (var fixture in Fixtures)
+		{
+			fixture.Reset();
+		}
 	}
 
 	public void GoForward()

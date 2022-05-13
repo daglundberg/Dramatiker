@@ -21,6 +21,12 @@ public class StaticLightEvent : ILightEvent
 
 	}
 
+	public void Reset()
+	{
+		Opacity = 0;
+		FlaggedForRemoval = false;
+	}
+
 	public float Opacity { get; private set; } = 0;
 	public Fixture Fixture { get; private set; }
 

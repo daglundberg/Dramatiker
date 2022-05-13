@@ -39,7 +39,8 @@ namespace Dramatiker.Client
 
 			if (set == null)
 			{
-				Console.WriteLine("No set.drama file found. Exiting...");
+				Console.WriteLine("No .drama file found. Exiting in 5 seconds...");
+				Thread.Sleep(5000);
 				return 1;
 			}
 
@@ -51,27 +52,43 @@ namespace Dramatiker.Client
 					config = int.Parse(args[0]);
 			
 			using var audioPlayer = new AudioPlayer(config);
-			audioPlayer.PlayStartUpSound();
+
 
 			string portName;
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 				portName = "COM3";
+			else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+				portName = "/dev/ttyUSB0";
+			else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+				portName = "/dev/tty.usbserial-EN275558";
 			else
 				portName = "/dev/ttyUSB0";
 
-			using var lightPlayer = new LightPlayer(set.Fixtures, new EntecUsbPro(portName, 512));
-
-			while (set.IsCompleted == false)
+			int highest = 0;
+			foreach (var fixture in set.Fixtures)
 			{
-				waiter.Wait();
-				set.TriggerNext(audioPlayer, lightPlayer);
-				lightPlayer.SHOULDCHECK = true;
+				if (fixture.FirstChannel > highest)
+					highest = fixture.FirstChannel;
 			}
+			
+			using var lightPlayer = new LightPlayer(set.Fixtures, new EntecUsbPro(portName, highest + 5));
 
-			Console.WriteLine($"Finished set.\n Trigger to exit program.");
-			waiter.Wait();
-			Console.WriteLine("Exiting...");
+			while (true)
+			{
+				audioPlayer.PlayStartUpSound();
+				set.TriggerNext(audioPlayer, lightPlayer);
+				while (set.IsCompleted == false)
+				{
+					waiter.Wait();
+					set.TriggerNext(audioPlayer, lightPlayer);
+					lightPlayer.SHOULDCHECK = true;
+				}
 
+				Console.WriteLine($"Finished set.");
+				waiter.Wait();
+				set.Restart();
+			}
+			
 			return 0;
 		}
 	}

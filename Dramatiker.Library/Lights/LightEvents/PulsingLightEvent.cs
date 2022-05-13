@@ -53,6 +53,12 @@ public class PulsingLightEvent : ILightEvent
 	{
 		Fixture.AddRegion(this);
 	}
+	
+	public void Reset()
+	{
+		Opacity = 0;
+		FlaggedForRemoval = false;
+	}
 
 	public void Deserialize(string[] data, Set set)
 	{

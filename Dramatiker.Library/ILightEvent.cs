@@ -4,6 +4,7 @@ namespace Dramatiker.Library;
 
 public interface ILightEvent : IEvent
 {
+	void Reset();
 	float Opacity { get; }
 
 	bool FlaggedForRemoval { get; set; }
