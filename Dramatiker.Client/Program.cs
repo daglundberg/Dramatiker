@@ -12,7 +12,7 @@ namespace Dramatiker.Client
 	{
 		static int Main(string[] args)
 		{
-			Console.WriteLine("Welcome to Dramatiker! Written by Dag Lundberg (c) 2021");
+			Console.WriteLine("Welcome to Dramatiker! Written by Dag Lundberg (c) 2022");
 
 			string[] paths = 
 			{
