@@ -16,9 +16,11 @@ public class StaticLightEvent : ILightEvent
 		FadeIn = fadeIn;
 	}
 	
-	public StaticLightEvent()
+	public StaticLightEvent(string[] data, Set set)
 	{
-
+		Fixture = set.Fixtures.Find(x => x.Name == data[1]);
+		FadeIn = float.Parse(data[2]);
+		Color = new Color(data[3]);
 	}
 
 	public void Reset()
@@ -28,7 +30,7 @@ public class StaticLightEvent : ILightEvent
 	}
 
 	public float Opacity { get; private set; } = 0;
-	public Fixture Fixture { get; private set; }
+	public Fixture? Fixture { get; private set; }
 
 	public Color GetColor(float delta)
 	{
@@ -44,7 +46,7 @@ public class StaticLightEvent : ILightEvent
 
 	public void ApplyLight(LightPlayer lightPlayer)
 	{
-		Fixture.AddRegion(this);
+		Fixture?.AddRegion(this);
 	}
 
 	public void Deserialize(string[] data, Set set)
@@ -57,7 +59,7 @@ public class StaticLightEvent : ILightEvent
 	public string Serialize()
 	{
 		return Serializer.Serialize(this,
-			Fixture.Name,
+			Fixture != null? Fixture.Name : "NULL",
 			FadeIn,
 			Color.ToHex());
 	}

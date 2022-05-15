@@ -9,7 +9,7 @@ public interface ILightEvent : IEvent
 
 	bool FlaggedForRemoval { get; set; }
 
-	Fixture Fixture { get; }
+	Fixture? Fixture { get; }
 	Color GetColor(float delta);
 
 	void ApplyLight(LightPlayer lightPlayer);

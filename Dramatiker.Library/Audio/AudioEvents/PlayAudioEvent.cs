@@ -1,4 +1,6 @@
-﻿namespace Dramatiker.Library;
+﻿using System;
+
+namespace Dramatiker.Library;
 
 public class PlayAudioEvent : IAudioEvent, ISerializable
 {
@@ -8,17 +10,20 @@ public class PlayAudioEvent : IAudioEvent, ISerializable
 		FadeLength = fadeLength;
 	}
 
-	public PlayAudioEvent()
+	public PlayAudioEvent(string[] data, Set set)
 	{
+		AudioItem = set.AudioItems.Find(x => x.FileName == data[1]);;
+		FadeLength = int.Parse(data[2]);
 	}
 
 	public int FadeLength { get; set; }
 
-	public AudioItem AudioItem { get; set; }
+	public AudioItem? AudioItem { get; set; }
 
 	public void ApplyAudio(AudioPlayer audioPlayer)
 	{
-		audioPlayer.PlayAudioItem(AudioItem, FadeLength);
+		if (AudioItem != null)
+			audioPlayer.PlayAudioItem(AudioItem, FadeLength);
 	}
 
 	public void Deserialize(string[] data, Set set)
@@ -30,7 +35,7 @@ public class PlayAudioEvent : IAudioEvent, ISerializable
 	public string Serialize()
 	{
 		return Serializer.Serialize(this,
-			AudioItem.FileName,
+			AudioItem != null? AudioItem.FileName : "NULL",
 			FadeLength);
 	}
 

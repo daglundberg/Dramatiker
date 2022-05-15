@@ -5,6 +5,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>Dramatiker.Client</AssemblyName>
     <RootNamespace>Dramatiker.Client</RootNamespace>
+      <Nullable>enable</Nullable>
+      <WarningsAsErrors>Nullable</WarningsAsErrors>
   </PropertyGroup>
 
 	<ItemGroup>

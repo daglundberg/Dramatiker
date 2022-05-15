@@ -18,6 +18,12 @@ public class Cue : ISerializable
 		_events = new List<IEvent>(events);
 		Name = name;
 	}
+	
+	public Cue(string[] data, Set set)
+	{
+		_events = new List<IEvent>();
+		Name = data[1];
+	}
 
 	public Cue(IEvent[] events)
 	{

@@ -73,7 +73,7 @@ public static class Serializer
 
 		using var stringReader = new StringReader(data.ToString());
 
-		Cue lastCue = null;
+		Cue? lastCue = null;
 		while (true)
 		{
 			var l = stringReader.ReadLine();
@@ -84,55 +84,47 @@ public static class Serializer
 			switch (line[0].Trim())
 			{
 				case "AudioItem":
-					var ai = new AudioItem(locationObject);
-					ai.Deserialize(line, set);
+					var ai = new AudioItem(locationObject, line, set);
 					set.AudioItems.Add(ai);
 					break;
 
 				case "Fixture":
-					var fi = new Fixture();
-					fi.Deserialize(line, set);
+					var fi = new Fixture(line, set);
 					set.Fixtures.Add(fi);
 					break;
 
 				case "PlayAudioEvent":
-					var pae = new PlayAudioEvent();
-					pae.Deserialize(line, set);
+					var pae = new PlayAudioEvent(line, set);
 					set.Events.Add(pae);
 					lastCue?.AddEvent(pae);
 					break;
 
 				case "StopAudioEvent":
-					var sae = new StopAudioEvent();
-					sae.Deserialize(line, set);
+					var sae = new StopAudioEvent(line, set);
 					set.Events.Add(sae);
 					lastCue?.AddEvent(sae);
 					break;
 
 				case "StaticLightEvent":
-					var sle = new StaticLightEvent();
-					sle.Deserialize(line, set);
+					var sle = new StaticLightEvent(line, set);
 					set.Events.Add(sle);
 					lastCue?.AddEvent(sle);
 					break;
 
 				case "ThunderLightEvent":
-					var tle = new ThunderLightEvent();
-					tle.Deserialize(line, set);
+					var tle = new ThunderLightEvent(line, set);
 					set.Events.Add(tle);
 					lastCue?.AddEvent(tle);
 					break;
 
 				case "PulsingLightEvent":
-					var ple = new StaticLightEvent();
-					ple.Deserialize(line, set);
+					var ple = new StaticLightEvent(line, set);
 					set.Events.Add(ple);
 					lastCue?.AddEvent(ple);
 					break;
 
 				case "Cue":
-					var cue = new Cue();
-					cue.Deserialize(line, set);
+					var cue = new Cue(line, set);
 					set.Cues.Add(cue);
 					lastCue = cue;
 					break;

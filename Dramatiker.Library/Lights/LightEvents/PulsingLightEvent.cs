@@ -24,13 +24,17 @@ public class PulsingLightEvent : ILightEvent
 		_time = 0;
 	}
 
-	public PulsingLightEvent()
+	public PulsingLightEvent(string[] data, Set set)
 	{
-		
+		Fixture = set.Fixtures.Find(x => x.Name == data[1]);
+		FadeIn = float.Parse(data[2]);
+		Color1 = new Color(data[3]);
+		Color2 = new Color(data[4]);
+		Frequency = float.Parse(data[5]);
 	}
 
 	public float Opacity { get; private set; } = 0;
-	public Fixture Fixture { get; protected set; }
+	public Fixture? Fixture { get; protected set; }
 
 	public virtual Color GetColor(float delta)
 	{
@@ -51,7 +55,7 @@ public class PulsingLightEvent : ILightEvent
 
 	public virtual void ApplyLight(LightPlayer lightPlayer)
 	{
-		Fixture.AddRegion(this);
+		Fixture?.AddRegion(this);
 	}
 	
 	public void Reset()
@@ -72,7 +76,7 @@ public class PulsingLightEvent : ILightEvent
 	public string Serialize()
 	{
 		return Serializer.Serialize(this,
-			Fixture.Name,
+			Fixture != null? Fixture.Name : "NULL",
 			FadeIn,
 			Color1.ToHex(),
 			Color2.ToHex(),

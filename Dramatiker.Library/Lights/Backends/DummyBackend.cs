@@ -21,7 +21,9 @@ public class DummyBackend : IDmxBackend
 			DmxSize = 512;
 		}
 
-		PrepareMessage();
+		IsConnected = true;
+
+		Message = CreateMessage();
 	}
 
 	public int DmxSize { get; }
@@ -69,17 +71,20 @@ public class DummyBackend : IDmxBackend
 		LightUpdated?.Invoke(this, EventArgs.Empty);
 	}
 
-	public event EventHandler LightUpdated;
+	public bool IsConnected { get; } = false;
 
-	private void PrepareMessage()
+	public event EventHandler? LightUpdated;
+
+	private byte[] CreateMessage()
 	{
-		Message = new byte[DmxSize + 6];
-		Message[0] = 0;
-		Message[1] = 6;
-		Message[2] = (byte) ((DmxSize + 1) & 0xFF);
-		Message[3] = (byte) (((DmxSize + 1) >> 8) & 0xFF);
-		Message[4] = 0;
-		Message[Message.Length - 1] = 0;
+		var message = new byte[DmxSize + 6];
+		message[0] = 0;
+		message[1] = 6;
+		message[2] = (byte) ((DmxSize + 1) & 0xFF);
+		message[3] = (byte) (((DmxSize + 1) >> 8) & 0xFF);
+		message[4] = 0;
+		message[Message.Length - 1] = 0;
+		return message;
 	}
 
 	public System.Drawing.Color GetColor(int i)

@@ -1,17 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Dramatiker.Library.Lights;
 
 public class Fixture : ISerializable
 {
-	public string Name { get; set; }
+	public string Name { get; private set; }
 
-	public int FirstChannel { get; set; }
+	public int FirstChannel { get; private set; }
 
 	public Color Color => default;
 
-	private List<ILightEvent> _lightRegions { get; } = new();
+	public Fixture(string name)
+	{
+		Name = name;
+	}
+	
+	public Fixture(string[] data, Set set)
+	{
+		Name = data[1];
+		FirstChannel = int.Parse(data[2]);
+	}
+
+	private readonly List<ILightEvent> _lightRegions = new();
 
 	public void Deserialize(string[] data, Set set)
 	{
@@ -28,28 +38,14 @@ public class Fixture : ISerializable
 
 	public void AddRegion(ILightEvent lightEvent)
 	{
-		_lightRegions.Add(lightEvent);
-		//TODO: Remove regions that are not having an effect on the output anymore.
-		
-		if (_lightRegions.Count > 2)
+		lock (this)
 		{
-			//_lightRegions.RemoveAt(0);
-			_lightRegions[0].FlaggedForRemoval = true;
+			_lightRegions.Add(lightEvent);
+			
+			//TODO: This removes regions that might still have an effect on the output.
+			if (_lightRegions.Count > 2)
+				_lightRegions.RemoveAt(0);
 		}
-		//TODO: I don't think the above is thread safe.
-	}
-
-	public void CleanFlaggedRegions()
-	{
-		// for (int i = 0; i < _lightRegions.Count; i++)
-		// {
-		// 	if (_lightRegions[i].FlaggedForRemoval)
-		// 	{
-		// 		_lightRegions.RemoveAt(i);
-		// 		i--;
-		// 		Console.WriteLine("Removed item");
-		// 	}
-		// }
 	}
 
 	public void Reset()
@@ -61,19 +57,15 @@ public class Fixture : ISerializable
 	{
 		Color output = default;
 		
-		//TODO: Collection changed exeption was thrown here!!!
-		for (int i = 0; i < _lightRegions.Count; i++) 
+		for (int i = _lightRegions.Count -1; i > 0; i--) 
 		{ 
 			var region = _lightRegions[i];
-			if (region != null)
-			{
-				var col = region.GetColor(delta);
-				output = Color.Lerp(output, col, col.A / 255f);
-			}
-			else
-			{
-				Console.WriteLine("NULL!!!");
-			}
+
+			var col = region.GetColor(delta);
+			output = Color.Lerp(output, col, col.A / 255f);
+			
+			if (output.A == 255)
+				return output;
 		}
 			
 		return output;

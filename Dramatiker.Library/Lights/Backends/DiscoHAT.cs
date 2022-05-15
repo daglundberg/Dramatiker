@@ -9,7 +9,7 @@ public class DiscoHat : IDmxBackend
 	private const byte SignalStart = 0x7E;
 	private const byte SignalEnd = 0xE7;
 
-	private static SerialPort _serialPort;
+	private readonly SerialPort _serialPort;
 	//static SerialPortStream _serialPort;
 
 	/// <summary>Instantiate Controller.</summary>
@@ -42,14 +42,20 @@ public class DiscoHat : IDmxBackend
 		try
 		{
 			_serialPort.Open();
+			IsConnected = true;
 		}
 		catch (FileNotFoundException e)
 		{
 			Console.WriteLine(@"Could not connect to the serial port.");
 			Console.WriteLine(e.Message);
 		}
+		catch (UnauthorizedAccessException e)
+		{
+			Console.WriteLine(@"Could not connect to the serial port.");
+			Console.WriteLine(e.Message);
+		}
 
-		PrepareMessage();
+		Message = CreateMessage();
 	}
 
 	public string Port { get; }
@@ -100,14 +106,17 @@ public class DiscoHat : IDmxBackend
 		if (_serialPort.IsOpen) _serialPort.Write(Message, 0, Message.Length);
 	}
 
-	private void PrepareMessage()
+	public bool IsConnected { get; } = false;
+
+	private byte[] CreateMessage()
 	{
-		Message = new byte[DmxSize + 6];
-		Message[0] = SignalStart;
-		Message[1] = 6;
-		Message[2] = (byte) ((DmxSize + 1) & 0xFF);
-		Message[3] = (byte) (((DmxSize + 1) >> 8) & 0xFF);
-		Message[4] = 0;
-		Message[Message.Length - 1] = SignalEnd;
+		var message = new byte[DmxSize + 6];
+		message[0] = SignalStart;
+		message[1] = 6;
+		message[2] = (byte) ((DmxSize + 1) & 0xFF);
+		message[3] = (byte) (((DmxSize + 1) >> 8) & 0xFF);
+		message[4] = 0;
+		message[^1] = SignalEnd;
+		return message;
 	}
 }

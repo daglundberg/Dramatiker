@@ -8,8 +8,6 @@ namespace Dramatiker.Library;
 
 public class Set
 {
-	private List<Cue> _cues;
-
 	public Set()
 	{
 		Events = new Register<IEvent>();
@@ -40,16 +38,17 @@ public class Set
 				break;
 
 			case IAudioEvent fie:
-				AudioItems.Add(fie.AudioItem);
+				if (fie.AudioItem != null)
+					AudioItems.Add(fie.AudioItem);
 				break;
 
 			case ILightEvent sr:
-				Fixtures.Add(sr.Fixture);
+				if (sr.Fixture != null)
+					Fixtures.Add(sr.Fixture);
 				break;
 		}
 	}
-
-
+	
 	public void TriggerNext(AudioPlayer audioPlayer, LightPlayer lightPlayer)
 	{
 		Console.WriteLine($@"{CurrentIndex + 1}: {Cues[CurrentIndex]} ({CurrentIndex + 1}/{Cues.Count})");
@@ -68,14 +67,14 @@ public class Set
 		CurrentIndex++;
 	}
 
-	public Cue GetNextCue()
+	public Cue? GetNextCue()
 	{
 		if (CurrentIndex < Cues.Count)
 			return Cues[CurrentIndex];
 		return null;
 	}
 
-	public Cue GetPreviousCue()
+	public Cue? GetPreviousCue()
 	{
 		if (CurrentIndex > 0)
 			return Cues[CurrentIndex - 1];

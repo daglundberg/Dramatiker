@@ -13,7 +13,8 @@ public class EntecUsbPro : IDmxBackend
 	private const byte SignalStart = 0x7E;
 	private const byte SignalEnd = 0xE7;
 
-	private static SerialPort _serialPort;
+	//private static SerialPort _serialPort;
+	private readonly SerialPort _serialPort;
 
 	/// <summary>Instantiate Controller.</summary>
 	/// <param name="port">COM port to use for communication.</param>
@@ -52,6 +53,7 @@ public class EntecUsbPro : IDmxBackend
 		try
 		{
 			_serialPort.Open();
+			IsConnected = true;
 		}
 		catch (FileNotFoundException e)
 		{
@@ -64,7 +66,7 @@ public class EntecUsbPro : IDmxBackend
 			Console.WriteLine(e.Message);
 		}
 
-		PrepareMessage();
+		Message = CreateMessage();
 	}
 
 	public string Port { get; }
@@ -72,6 +74,8 @@ public class EntecUsbPro : IDmxBackend
 	public int Baudrate { get; }
 	public int Timeout { get; }
 	public byte[] Message { get; private set; }
+
+	public bool IsConnected { get; } = false;
 
 	private Span<byte> Channels => new Span<byte>(Message, 5, DmxSize);
 
@@ -116,14 +120,15 @@ public class EntecUsbPro : IDmxBackend
 			_serialPort.Write(Message, 0, Message.Length);
 	}
 
-	private void PrepareMessage()
+	private byte[] CreateMessage()
 	{
-		Message = new byte[DmxSize + 6];
-		Message[0] = SignalStart;
-		Message[1] = 6;
-		Message[2] = (byte) ((DmxSize + 1) & 0xFF);
-		Message[3] = (byte) (((DmxSize + 1) >> 8) & 0xFF);
-		Message[4] = 0;
-		Message[^1] = SignalEnd;
+		var message = new byte[DmxSize + 6];
+		message[0] = SignalStart;
+		message[1] = 6;
+		message[2] = (byte) ((DmxSize + 1) & 0xFF);
+		message[3] = (byte) (((DmxSize + 1) >> 8) & 0xFF);
+		message[4] = 0;
+		message[^1] = SignalEnd;
+		return message;
 	}
 }

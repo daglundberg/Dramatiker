@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dramatiker.Client", "Dramat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dramatiker.Library", "Dramatiker.Library\Dramatiker.Library.csproj", "{A79E249F-833E-4BFF-9072-FD5B295B5B80}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dramatiker.Creator", "Dramatiker.Creator\Dramatiker.Creator.csproj", "{449CAF7C-945B-4DB6-ADED-9B351715C664}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dramatiker.Director", "Dramatiker.Director\Dramatiker.Director.csproj", "{25715C0C-B0E7-4455-9133-DB8B7D17A7D7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dramatiker.Testing", "Dramatiker.Testing\Dramatiker.Testing.csproj", "{5E64BBD9-F7A1-4DEE-96CF-D875940D927E}"
 EndProject
 Global
@@ -27,14 +23,6 @@ Global
 		{A79E249F-833E-4BFF-9072-FD5B295B5B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A79E249F-833E-4BFF-9072-FD5B295B5B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A79E249F-833E-4BFF-9072-FD5B295B5B80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{449CAF7C-945B-4DB6-ADED-9B351715C664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{449CAF7C-945B-4DB6-ADED-9B351715C664}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{449CAF7C-945B-4DB6-ADED-9B351715C664}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{449CAF7C-945B-4DB6-ADED-9B351715C664}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25715C0C-B0E7-4455-9133-DB8B7D17A7D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25715C0C-B0E7-4455-9133-DB8B7D17A7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25715C0C-B0E7-4455-9133-DB8B7D17A7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25715C0C-B0E7-4455-9133-DB8B7D17A7D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5E64BBD9-F7A1-4DEE-96CF-D875940D927E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E64BBD9-F7A1-4DEE-96CF-D875940D927E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E64BBD9-F7A1-4DEE-96CF-D875940D927E}.Release|Any CPU.ActiveCfg = Release|Any CPU

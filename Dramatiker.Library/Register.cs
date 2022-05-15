@@ -67,7 +67,7 @@ public class Register<T> : IEnumerable<T>
 		return new Enum<T>(_items, Count);
 	}
 
-	public event EventHandler<ItemAddedEventArgs> ItemAdded;
+	public event EventHandler<ItemAddedEventArgs>? ItemAdded;
 
 	private void EnsureCapacity(int min)
 	{
@@ -87,7 +87,7 @@ public class Register<T> : IEnumerable<T>
 			EnsureCapacity(Count + 1);
 
 		_items[Count++] = item;
-		ItemAdded?.Invoke(this, new ItemAddedEventArgs {Item = item});
+		ItemAdded?.Invoke(this, new ItemAddedEventArgs(item));
 	}
 
 	public void AddRange(T[] items)
@@ -104,7 +104,7 @@ public class Register<T> : IEnumerable<T>
 		return false;
 	}
 
-	public T Find(Predicate<T> match)
+	public T? Find(Predicate<T> match)
 	{
 		if (match == null)
 			throw new ArgumentNullException();
@@ -119,6 +119,10 @@ public class Register<T> : IEnumerable<T>
 
 public class ItemAddedEventArgs : EventArgs
 {
+	public ItemAddedEventArgs(object item)
+	{
+		Item = item;
+	}
 	public object Item;
 }
 
@@ -149,7 +153,7 @@ public class Enum<T> : IEnumerator<T>
 		position = -1;
 	}
 
-	object IEnumerator.Current => Current;
+	object? IEnumerator.Current => Current;
 
 	public T Current
 	{

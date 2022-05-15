@@ -14,9 +14,13 @@ public class ThunderLightEvent : PulsingLightEvent
 
 	}
 
-	public ThunderLightEvent()
+	public ThunderLightEvent(string[] data, Set set) : base(data, set)
 	{
-
+		// Fixture = set.Fixtures.Find(x => x.Name == data[1]);
+		// FadeIn = float.Parse(data[2]);
+		// Color1 = new Color(data[3]);
+		// Color2 = new Color(data[4]);
+		// Frequency = float.Parse(data[5]);
 	}
 
 	public override Color GetColor(float delta)
@@ -40,10 +44,10 @@ public class ThunderLightEvent : PulsingLightEvent
 
 	public override void ApplyLight(LightPlayer lightPlayer)
 	{
-		Fixture.AddRegion(this);
+		Fixture?.AddRegion(this);
 	}
 
-	public void Deserialize(string[] data, Set set)
+	public new void Deserialize(string[] data, Set set)
 	{
 		Fixture = set.Fixtures.Find(x => x.Name == data[1]);
 		FadeIn = float.Parse(data[2]);
@@ -55,7 +59,7 @@ public class ThunderLightEvent : PulsingLightEvent
 	public new string Serialize()
 	{
 		return Serializer.Serialize(this,
-			Fixture.Name,
+			Fixture != null? Fixture.Name : "NULL",
 			FadeIn,
 			Color1.ToHex(),
 			Color2.ToHex(),

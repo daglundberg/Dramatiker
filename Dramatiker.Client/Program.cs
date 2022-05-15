@@ -24,7 +24,7 @@ namespace Dramatiker.Client
 				Directory.GetCurrentDirectory()
 			};
 			
-			Set set = null;
+			Set? set = null;
 			foreach (var path in paths)
 				if (Directory.Exists(path))
 				{
@@ -44,15 +44,17 @@ namespace Dramatiker.Client
 				return 1;
 			}
 
-			using var waiter = new Waiter(Waiter.InputType.Keyboard);
+			IWaiter waiter;
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+				waiter = new ConsoleWaiter();
+			else
+				waiter = new GpioWaiter();
 
 			int config = -1;
-			if (args != null)
-				if (args.Length > 0)
-					config = int.Parse(args[0]);
+			if (args.Length > 0) 
+				config = int.Parse(args[0]);
 			
 			using var audioPlayer = new AudioPlayer(config);
-
 
 			string portName;
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -73,6 +75,14 @@ namespace Dramatiker.Client
 			
 			using var lightPlayer = new LightPlayer(set.Fixtures, new EntecUsbPro(portName, highest + 5));
 
+			Console.CancelKeyPress += delegate
+			{
+				Console.Write("Cleaning up");
+				waiter.Dispose(); Console.Write(".");
+				audioPlayer.Dispose(); Console.Write(".");
+				lightPlayer.Dispose(); Console.Write(". Finished.");
+			};
+			
 			while (true)
 			{
 				audioPlayer.PlayStartUpSound();
@@ -81,15 +91,12 @@ namespace Dramatiker.Client
 				{
 					waiter.Wait();
 					set.TriggerNext(audioPlayer, lightPlayer);
-					lightPlayer.SHOULDCHECK = true;
 				}
 
 				Console.WriteLine($"Finished set.");
 				waiter.Wait();
 				set.Restart();
 			}
-			
-			return 0;
 		}
 	}
 }

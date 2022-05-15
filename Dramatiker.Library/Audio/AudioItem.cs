@@ -18,20 +18,23 @@ public class AudioItem : IEquatable<AudioItem>, ISerializable
 			Console.WriteLine($"Could not find {FullFilePath}");
 	}
 
-	public AudioItem(LocationObject location)
+	public AudioItem(LocationObject location, string[] data, Set set)
 	{
 		_location = location;
+		FileName = data[1];
+		IsLooping = bool.Parse(data[2]);
+		Volume = float.Parse(data[3]);
 	}
 
-	public string FileName { get; set; }
+	public readonly string FileName;
 
-	public bool IsLooping { get; set; }
+	public bool IsLooping { get; private set; }
 
-	public float Volume { get; set; }
+	public float Volume { get; private set; }
 
 	public string FullFilePath => Path.Combine(_location.CurrentLocation, FileName);
 
-	public bool Equals(AudioItem other)
+	public bool Equals(AudioItem? other)
 	{
 		return other != null &&
 		       FileName == other.FileName;
@@ -39,7 +42,6 @@ public class AudioItem : IEquatable<AudioItem>, ISerializable
 
 	public void Deserialize(string[] data, Set set)
 	{
-		FileName = data[1];
 		IsLooping = bool.Parse(data[2]);
 		Volume = float.Parse(data[3]);
 	}
@@ -52,9 +54,13 @@ public class AudioItem : IEquatable<AudioItem>, ISerializable
 			Volume);
 	}
 
-	public override bool Equals(object obj)
+	public override bool Equals(object? obj)
 	{
-		return Equals(obj as AudioItem);
+		if (obj != null)
+			return Equals(obj as AudioItem);
+
+		return false;
+		
 	}
 
 	public override int GetHashCode()

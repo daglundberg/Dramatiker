@@ -11,7 +11,6 @@ public class LightPlayer : IDisposable
 	private readonly IDmxBackend _dmxBackend;
 	private readonly Thread _thread;
 	private bool CONTINUE = true;
-	public bool SHOULDCHECK = false;
 	public Fixture[] Lights;
 
 	public LightPlayer(IEnumerable<Fixture> lights, IDmxBackend dmxBackend)
@@ -19,8 +18,8 @@ public class LightPlayer : IDisposable
 		Lights = lights.ToArray();
 
 		_dmxBackend = dmxBackend;
-
-		_thread = new Thread(() => RunLights(Lights, _dmxBackend, ref CONTINUE, ref SHOULDCHECK));
+	//if (_dmxBackend != null)
+		_thread = new Thread(() => RunLights(Lights, _dmxBackend, ref CONTINUE));
 		_thread.Start();
 	}
 
@@ -38,7 +37,7 @@ public class LightPlayer : IDisposable
 		_dmxBackend.Flush();
 	}
 
-	public static void RunLights(Fixture[] fixtures, IDmxBackend lightController, ref bool shouldContinue, ref bool shouldCheck)
+	public static void RunLights(Fixture[] fixtures, IDmxBackend lightController, ref bool shouldContinue)
 	{
 		const int fps = 40;
 		const int timeStepMs = 1000 / fps;
@@ -48,18 +47,12 @@ public class LightPlayer : IDisposable
 		{
 			Thread.Sleep(timeStepMs);
 
-			if (shouldCheck)
-			{
-				Console.WriteLine("Checking for removes");
-			
-				foreach (var fixture in fixtures)
-					fixture.CleanFlaggedRegions();
-				shouldCheck = false;
-			}
-
 			for (int i = 0; i < fixtures.Length; i++)
 			{
-				lightController.SetColor(fixtures[i], fixtures[i].GetColor(timeStepS));
+				lock (fixtures[i])
+				{
+					lightController.SetColor(fixtures[i], fixtures[i].GetColor(timeStepS));
+				}
 			}
 
 			lightController.Flush();
