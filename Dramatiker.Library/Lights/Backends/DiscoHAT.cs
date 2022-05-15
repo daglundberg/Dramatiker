@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.IO.Ports;
+﻿using System.IO.Ports;
 
 namespace Dramatiker.Library.Lights.Backends;
 
@@ -62,9 +60,9 @@ public class DiscoHat : IDmxBackend
 	public int DmxSize { get; }
 	public int Baudrate { get; }
 	public int Timeout { get; }
-	public byte[] Message { get; private set; }
+	public byte[] Message { get; }
 
-	private Span<byte> Channels => new Span<byte>(Message, 5, DmxSize);
+	private Span<byte> Channels => new(Message, 5, DmxSize);
 
 	public void SetChannel(int channel, byte value)
 	{
@@ -106,7 +104,7 @@ public class DiscoHat : IDmxBackend
 		if (_serialPort.IsOpen) _serialPort.Write(Message, 0, Message.Length);
 	}
 
-	public bool IsConnected { get; } = false;
+	public bool IsConnected { get; }
 
 	private byte[] CreateMessage()
 	{

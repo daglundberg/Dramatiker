@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Dramatiker.Library.Lights;
+﻿namespace Dramatiker.Library.Lights;
 
 public struct Color
 {
@@ -19,7 +17,7 @@ public struct Color
 		B = color.B;
 		A = alpha;
 	}
-	
+
 	public Color(string hex)
 	{
 		var bytes = Convert.FromHexString(hex);

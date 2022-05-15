@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Dramatiker.Library;
+﻿namespace Dramatiker.Library;
 
 public class Cue : ISerializable
 {
 	private readonly List<IEvent> _events;
 
-	public Cue(string name = "Nameless Cue")
+	public Cue(string name = "Cue")
 	{
 		_events = new List<IEvent>();
 		Name = name;
@@ -18,7 +15,7 @@ public class Cue : ISerializable
 		_events = new List<IEvent>(events);
 		Name = name;
 	}
-	
+
 	public Cue(string[] data, Set set)
 	{
 		_events = new List<IEvent>();
@@ -28,17 +25,12 @@ public class Cue : ISerializable
 	public Cue(IEvent[] events)
 	{
 		_events = new List<IEvent>(events);
-		Name = "Nameless Cue";
+		Name = "Cue";
 	}
 
 	public string Name { get; set; }
 
 	public IEnumerable<IEvent> Events => _events;
-
-	public void Deserialize(string[] data, Set set)
-	{
-		Name = data[1];
-	}
 
 	public string Serialize()
 	{

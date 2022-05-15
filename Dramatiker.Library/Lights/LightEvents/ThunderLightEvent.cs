@@ -1,17 +1,13 @@
-﻿using System;
-using Dramatiker.Library.Lights;
-
-namespace Dramatiker.Library;
+﻿namespace Dramatiker.Library.Lights;
 
 public class ThunderLightEvent : PulsingLightEvent
 {
+	private readonly Random rand = new();
 	private float flashPos;
-	private readonly Random rand = new Random();
 
 	public ThunderLightEvent(Fixture fixture, float fadeIn) : base(fixture, new Color(0, 0, 110), new Color(0, 40, 20),
 		fadeIn, 1.4f)
 	{
-
 	}
 
 	public ThunderLightEvent(string[] data, Set set) : base(data, set)
@@ -59,7 +55,7 @@ public class ThunderLightEvent : PulsingLightEvent
 	public new string Serialize()
 	{
 		return Serializer.Serialize(this,
-			Fixture != null? Fixture.Name : "NULL",
+			Fixture != null ? Fixture.Name : "NULL",
 			FadeIn,
 			Color1.ToHex(),
 			Color2.ToHex(),

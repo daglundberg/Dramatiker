@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.IO.Ports;
+﻿using System.IO.Ports;
 
 namespace Dramatiker.Library.Lights.Backends;
 
@@ -12,8 +10,7 @@ public class EntecUsbPro : IDmxBackend
 {
 	private const byte SignalStart = 0x7E;
 	private const byte SignalEnd = 0xE7;
-
-	//private static SerialPort _serialPort;
+	
 	private readonly SerialPort _serialPort;
 
 	/// <summary>Instantiate Controller.</summary>
@@ -23,25 +20,23 @@ public class EntecUsbPro : IDmxBackend
 	/// <param name="timeout">Serial connection timeout.</param>
 	public EntecUsbPro(string port, int dmxSize = 512, int baudrate = 57600, int timeout = 1000)
 	{
-/*			String[] PortNames = SerialPort.GetPortNames();
-
-			Console.WriteLine("Available Ports:");
-			foreach (string s in PortNames)
-			{
-				Console.WriteLine("   {0}", s);
-			}*/
-
-		Port = port;
-		DmxSize = dmxSize;
-		Baudrate = baudrate;
-		Timeout = timeout;
-
-		if (DmxSize > 512 || DmxSize < 24)
+		/*
+		string[] PortNames = SerialPort.GetPortNames();
+		Console.WriteLine("Available Ports:");
+		foreach (var s in PortNames)
 		{
-			Console.WriteLine(@"Size of DMX channel frame must be between 24 and 512! Defaulting to 512.");
-			DmxSize = 512;
+			Console.WriteLine("   {0}", s);
 		}
-
+		*/
+		
+		if (dmxSize is > 512 or < 24)
+		{
+			Console.WriteLine(@"Size of DMX channel frame must be between 24 and 512! Defaulting to 24.");
+			dmxSize = 24;
+		}
+		
+		DmxSize = dmxSize;
+		
 		// Create a new SerialPort object with default settings.
 		_serialPort = new SerialPort(port, baudrate);
 		_serialPort.Handshake = Handshake.XOnXOff;
@@ -69,15 +64,12 @@ public class EntecUsbPro : IDmxBackend
 		Message = CreateMessage();
 	}
 
-	public string Port { get; }
-	public int DmxSize { get; }
-	public int Baudrate { get; }
-	public int Timeout { get; }
-	public byte[] Message { get; private set; }
+	private int DmxSize { get; }
+	private byte[] Message { get; }
 
-	public bool IsConnected { get; } = false;
+	private Span<byte> Channels => new(Message, 5, DmxSize);
 
-	private Span<byte> Channels => new Span<byte>(Message, 5, DmxSize);
+	public bool IsConnected { get; }
 
 	public void SetChannel(int channel, byte value)
 	{
@@ -86,12 +78,11 @@ public class EntecUsbPro : IDmxBackend
 
 	public void SetColor(Fixture light, Color color)
 	{
-		var span = Channels.Slice(light.FirstChannel, 4);
+		var span = Channels.Slice(light.FirstChannel, 3);
 
 		span[0] = color.R;
 		span[1] = color.G;
 		span[2] = color.B;
-		//span[3] = color.A;
 	}
 
 	public void ClearChannels()

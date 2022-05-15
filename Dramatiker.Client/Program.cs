@@ -1,18 +1,20 @@
-﻿using System;
-using System.Threading;
+﻿using System.Globalization;
 using Dramatiker.Library;
-using System.IO;
+using Dramatiker.Library.Audio;
 using Dramatiker.Library.Lights;
 using Dramatiker.Library.Lights.Backends;
 using System.Runtime.InteropServices;
+using Dramatiker.Library.Properties;
 
 namespace Dramatiker.Client
 {
-	partial class Program
+	public static class Program
 	{
-		static int Main(string[] args)
+		public static int Main(string[] args)
 		{
-			Console.WriteLine("Welcome to Dramatiker! Written by Dag Lundberg (c) 2022");
+			//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("sv-SE");
+
+			Console.WriteLine(Resources.Greeting);
 
 			string[] paths = 
 			{
@@ -39,7 +41,7 @@ namespace Dramatiker.Client
 
 			if (set == null)
 			{
-				Console.WriteLine("No .drama file found. Exiting in 5 seconds...");
+				Console.WriteLine(Resources.NoSetFileFound);
 				Thread.Sleep(5000);
 				return 1;
 			}
@@ -78,9 +80,9 @@ namespace Dramatiker.Client
 			Console.CancelKeyPress += delegate
 			{
 				Console.Write("Cleaning up");
-				waiter.Dispose(); Console.Write(".");
-				audioPlayer.Dispose(); Console.Write(".");
-				lightPlayer.Dispose(); Console.Write(". Finished.");
+				waiter?.Dispose(); Console.Write('.');
+				audioPlayer?.Dispose(); Console.Write('.');
+				lightPlayer?.Dispose(); Console.Write(". Finished.");
 			};
 			
 			while (true)
@@ -93,7 +95,7 @@ namespace Dramatiker.Client
 					set.TriggerNext(audioPlayer, lightPlayer);
 				}
 
-				Console.WriteLine($"Finished set.");
+				Console.WriteLine(Resources.Finished);
 				waiter.Wait();
 				set.Restart();
 			}

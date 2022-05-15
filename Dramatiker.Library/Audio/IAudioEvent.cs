@@ -1,4 +1,4 @@
-namespace Dramatiker.Library;
+namespace Dramatiker.Library.Audio;
 
 public interface IAudioEvent : IEvent
 {

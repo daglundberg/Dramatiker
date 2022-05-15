@@ -1,4 +1,4 @@
-﻿namespace Dramatiker.Library;
+﻿namespace Dramatiker.Library.Audio;
 
 public class StopAudioEvent : IAudioEvent
 {
@@ -33,7 +33,7 @@ public class StopAudioEvent : IAudioEvent
 	public string Serialize()
 	{
 		return Serializer.Serialize(this,
-			AudioItem != null? AudioItem.FileName : "NULL",
+			AudioItem != null ? AudioItem.FileName : "NULL",
 			FadeLength);
 	}
 

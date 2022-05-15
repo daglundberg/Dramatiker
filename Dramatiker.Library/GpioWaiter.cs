@@ -1,37 +1,12 @@
-﻿using System;
 using System.Device.Gpio;
-using System.Threading;
+using Dramatiker.Library.Properties;
 
-namespace Dramatiker.Client;
-
-public interface IWaiter : IDisposable
-{
-	void Wait();
-}
-
-public class ConsoleWaiter : IWaiter
-{
-	private readonly ConsoleKey _key;
-	public ConsoleWaiter(ConsoleKey key = ConsoleKey.Enter)
-	{
-		_key = key;
-	}
-	public void Dispose()
-	{
-	}
-
-	public void Wait()
-	{
-		Thread.Sleep(50);
-		Console.WriteLine($"Press {_key} to continue...");
-		while (Console.ReadKey().Key != _key){};
-	}
-}
+namespace Dramatiker.Library;
 
 public class GpioWaiter : IWaiter
 {
-	readonly GpioController _controller;
-	readonly int _inputPin;
+	private readonly GpioController _controller;
+	private readonly int _inputPin;
 
 	public GpioWaiter(int inputPin = 26)
 	{
@@ -43,10 +18,10 @@ public class GpioWaiter : IWaiter
 	public void Wait()
 	{
 		Thread.Sleep(1000);
-		Console.WriteLine($"Press pedal to continue...");
+		Console.WriteLine(Resources.PressThePedal);
 		//_controller.WaitForEvent(pin, PinEventTypes.Falling, new TimeSpan(24,0,0));
 
-		int count = 0;
+		var count = 0;
 
 		while (count < 10)
 		{
@@ -62,7 +37,7 @@ public class GpioWaiter : IWaiter
 			}
 		}
 	}
-	
+
 	public void Dispose()
 	{
 		_controller.ClosePin(_inputPin);

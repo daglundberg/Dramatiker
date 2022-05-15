@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using Dramatiker.Library.Audio;
 using Dramatiker.Library.Lights;
 
 namespace Dramatiker.Library;
@@ -24,7 +21,7 @@ public class Set
 	public Register<IEvent> Events { get; }
 	public Register<Cue> Cues { get; }
 	public Register<Fixture> Fixtures { get; }
-	public int CurrentIndex { get; private set; } = 0;
+	public int CurrentIndex { get; private set; }
 
 	public bool IsCompleted => CurrentIndex >= Cues.Count;
 
@@ -48,7 +45,7 @@ public class Set
 				break;
 		}
 	}
-	
+
 	public void TriggerNext(AudioPlayer audioPlayer, LightPlayer lightPlayer)
 	{
 		Console.WriteLine($@"{CurrentIndex + 1}: {Cues[CurrentIndex]} ({CurrentIndex + 1}/{Cues.Count})");
@@ -90,15 +87,10 @@ public class Set
 	{
 		CurrentIndex = 0;
 		foreach (var ievent in Events)
-		{
 			if (ievent is ILightEvent e)
 				e.Reset();
-		}
 
-		foreach (var fixture in Fixtures)
-		{
-			fixture.Reset();
-		}
+		foreach (var fixture in Fixtures) fixture.Reset();
 	}
 
 	public void GoForward()

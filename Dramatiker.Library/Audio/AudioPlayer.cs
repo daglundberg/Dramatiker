@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Dramatiker.Library.Properties;
+﻿using Dramatiker.Library.Properties;
 using ManagedBass;
 
-namespace Dramatiker.Library;
+namespace Dramatiker.Library.Audio;
 
 public class AudioPlayer : IDisposable
 {
@@ -14,7 +10,7 @@ public class AudioPlayer : IDisposable
 
 	public AudioPlayer(int config = -1)
 	{
-		Console.WriteLine($"Setting up audio with config {config}");
+		Console.WriteLine(Resources.SettingUpWithConfig, config);
 
 		Bass.Init(config);
 	}

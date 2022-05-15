@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace Dramatiker.Library;
 
@@ -119,11 +117,12 @@ public class Register<T> : IEnumerable<T>
 
 public class ItemAddedEventArgs : EventArgs
 {
+	public object Item;
+
 	public ItemAddedEventArgs(object item)
 	{
 		Item = item;
 	}
-	public object Item;
 }
 
 // When you implement IEnumerable, you must also implement IEnumerator.

@@ -1,7 +1,4 @@
-﻿using System;
-using Dramatiker.Library.Lights;
-
-namespace Dramatiker.Library;
+﻿namespace Dramatiker.Library.Lights;
 
 public class PulsingLightEvent : ILightEvent
 {
@@ -10,8 +7,6 @@ public class PulsingLightEvent : ILightEvent
 	public Color Color2;
 	public float FadeIn;
 	public float Frequency = 1;
-	
-	public bool FlaggedForRemoval { get; set; } = false;
 
 	public PulsingLightEvent(Fixture fixture, Color color1, Color color2, float fadeIn, float frequency)
 	{
@@ -33,7 +28,7 @@ public class PulsingLightEvent : ILightEvent
 		Frequency = float.Parse(data[5]);
 	}
 
-	public float Opacity { get; private set; } = 0;
+	public float Opacity { get; private set; }
 	public Fixture? Fixture { get; protected set; }
 
 	public virtual Color GetColor(float delta)
@@ -57,11 +52,10 @@ public class PulsingLightEvent : ILightEvent
 	{
 		Fixture?.AddRegion(this);
 	}
-	
+
 	public void Reset()
 	{
 		Opacity = 0;
-		FlaggedForRemoval = false;
 	}
 
 	public void Deserialize(string[] data, Set set)
@@ -76,7 +70,7 @@ public class PulsingLightEvent : ILightEvent
 	public string Serialize()
 	{
 		return Serializer.Serialize(this,
-			Fixture != null? Fixture.Name : "NULL",
+			Fixture != null ? Fixture.Name : "NULL",
 			FadeIn,
 			Color1.ToHex(),
 			Color2.ToHex(),

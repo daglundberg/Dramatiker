@@ -1,13 +1,9 @@
-﻿using System;
-using Dramatiker.Library.Lights;
-
-namespace Dramatiker.Library;
+﻿namespace Dramatiker.Library.Lights;
 
 public class StaticLightEvent : ILightEvent
 {
 	public Color Color;
 	public float FadeIn;
-	public bool FlaggedForRemoval { get; set; } = false;
 
 	public StaticLightEvent(Fixture fixture, Color color, float fadeIn)
 	{
@@ -15,21 +11,21 @@ public class StaticLightEvent : ILightEvent
 		Color = color;
 		FadeIn = fadeIn;
 	}
-	
+
 	public StaticLightEvent(string[] data, Set set)
 	{
 		Fixture = set.Fixtures.Find(x => x.Name == data[1]);
 		FadeIn = float.Parse(data[2]);
 		Color = new Color(data[3]);
 	}
+	
 
 	public void Reset()
 	{
 		Opacity = 0;
-		FlaggedForRemoval = false;
 	}
 
-	public float Opacity { get; private set; } = 0;
+	public float Opacity { get; private set; }
 	public Fixture? Fixture { get; private set; }
 
 	public Color GetColor(float delta)
@@ -59,7 +55,7 @@ public class StaticLightEvent : ILightEvent
 	public string Serialize()
 	{
 		return Serializer.Serialize(this,
-			Fixture != null? Fixture.Name : "NULL",
+			Fixture != null ? Fixture.Name : "NULL",
 			FadeIn,
 			Color.ToHex());
 	}

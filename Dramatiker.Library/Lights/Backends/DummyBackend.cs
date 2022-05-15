@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Dramatiker.Library.Lights.Backends;
+﻿namespace Dramatiker.Library.Lights.Backends;
 
 /// <summary>
 ///     Displays
@@ -27,9 +25,9 @@ public class DummyBackend : IDmxBackend
 	}
 
 	public int DmxSize { get; }
-	public byte[] Message { get; private set; }
+	public byte[] Message { get; }
 
-	private Span<byte> Channels => new Span<byte>(Message, 5, DmxSize);
+	private Span<byte> Channels => new(Message, 5, DmxSize);
 
 	public void SetChannel(int channel, byte value)
 	{
@@ -71,7 +69,7 @@ public class DummyBackend : IDmxBackend
 		LightUpdated?.Invoke(this, EventArgs.Empty);
 	}
 
-	public bool IsConnected { get; } = false;
+	public bool IsConnected { get; }
 
 	public event EventHandler? LightUpdated;
 

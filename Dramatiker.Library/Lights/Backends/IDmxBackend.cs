@@ -2,6 +2,7 @@
 
 public interface IDmxBackend
 {
+	public bool IsConnected { get; }
 	public void SetColor(Fixture light, Color color);
 
 	/// <summary>
@@ -33,6 +34,4 @@ public interface IDmxBackend
 	///     Send the message to the device.
 	/// </summary>
 	public void Flush();
-	
-	public bool IsConnected { get; }
 }

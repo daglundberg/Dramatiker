@@ -7,11 +7,8 @@
     <RootNamespace>Dramatiker.Client</RootNamespace>
       <Nullable>enable</Nullable>
       <WarningsAsErrors>Nullable</WarningsAsErrors>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Iot.Device.Bindings" Version="1.5.0" />
-	</ItemGroup>
 
 	<ItemGroup>
     <ProjectReference Include="..\Dramatiker.Library\Dramatiker.Library.csproj" />

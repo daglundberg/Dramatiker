@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
-
-namespace Dramatiker.Library;
+﻿namespace Dramatiker.Library.Audio;
 
 public class AudioItem : IEquatable<AudioItem>, ISerializable
 {
 	private readonly LocationObject _location;
+
+	public readonly string FileName;
 
 	public AudioItem(LocationObject location, string fileName, bool isLooping, float volume = 1.0f)
 	{
@@ -25,8 +24,6 @@ public class AudioItem : IEquatable<AudioItem>, ISerializable
 		IsLooping = bool.Parse(data[2]);
 		Volume = float.Parse(data[3]);
 	}
-
-	public readonly string FileName;
 
 	public bool IsLooping { get; private set; }
 
@@ -60,7 +57,6 @@ public class AudioItem : IEquatable<AudioItem>, ISerializable
 			return Equals(obj as AudioItem);
 
 		return false;
-		
 	}
 
 	public override int GetHashCode()

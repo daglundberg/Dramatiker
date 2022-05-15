@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Dramatiker.Library.Lights.Backends;
+﻿using Dramatiker.Library.Lights.Backends;
 
 namespace Dramatiker.Library.Lights;
 
@@ -10,22 +6,18 @@ public class LightPlayer : IDisposable
 {
 	private readonly IDmxBackend _dmxBackend;
 	private readonly Thread _thread;
-	private bool CONTINUE = true;
-	public Fixture[] Lights;
+	private bool _continue = true;
 
 	public LightPlayer(IEnumerable<Fixture> lights, IDmxBackend dmxBackend)
 	{
-		Lights = lights.ToArray();
-
 		_dmxBackend = dmxBackend;
-	//if (_dmxBackend != null)
-		_thread = new Thread(() => RunLights(Lights, _dmxBackend, ref CONTINUE));
+		_thread = new Thread(() => RunLights(lights.ToArray(), _dmxBackend, ref _continue));
 		_thread.Start();
 	}
 
 	public void Dispose()
 	{
-		CONTINUE = false;
+		_continue = false;
 		_thread.Join();
 		_dmxBackend.ClearChannels();
 		_dmxBackend.Flush();
@@ -37,24 +29,20 @@ public class LightPlayer : IDisposable
 		_dmxBackend.Flush();
 	}
 
-	public static void RunLights(Fixture[] fixtures, IDmxBackend lightController, ref bool shouldContinue)
+	private static void RunLights(IReadOnlyList<Fixture> fixtures, IDmxBackend lightController, ref bool shouldContinue)
 	{
 		const int fps = 40;
 		const int timeStepMs = 1000 / fps;
 		const float timeStepS = timeStepMs / 1000f;
-		
+
 		while (shouldContinue)
 		{
 			Thread.Sleep(timeStepMs);
 
-			for (int i = 0; i < fixtures.Length; i++)
-			{
+			for (var i = 0; i < fixtures.Count; i++)
 				lock (fixtures[i])
-				{
 					lightController.SetColor(fixtures[i], fixtures[i].GetColor(timeStepS));
-				}
-			}
-
+			
 			lightController.Flush();
 		}
 	}

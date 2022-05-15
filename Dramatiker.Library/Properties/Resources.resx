@@ -59,7 +59,8 @@
               : using a System.ComponentModel.TypeConverter
               : and then encoded with base64 encoding.
       -->
-    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root"
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+                id="root"
                 xmlns="">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
         <xsd:element name="root" msdata:IsDataSet="true">
@@ -128,5 +129,23 @@
         <value>..\Resources\dramatiker.mp3;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
             PublicKeyToken=b77a5c561934e089
         </value>
+    </data>
+    <data name="Greeting" xml:space="preserve">
+        <value>Welcome to Dramatiker! Written by Dag Lundberg (c) 2022</value>
+    </data>
+    <data name="Finished" xml:space="preserve">
+        <value>Finished set.</value>
+    </data>
+    <data name="NoSetFileFound" xml:space="preserve">
+        <value>No .drama file found. Quitting in 5 seconds...</value>
+    </data>
+    <data name="SettingUpWithConfig" xml:space="preserve">
+        <value>Setting up audio with config {0}</value>
+    </data>
+    <data name="PressKeyToContinue" xml:space="preserve">
+        <value>Press {0} to continue...</value>
+    </data>
+    <data name="PressThePedal" xml:space="preserve">
+        <value>Press the pedal to continue...</value>
     </data>
 </root>
